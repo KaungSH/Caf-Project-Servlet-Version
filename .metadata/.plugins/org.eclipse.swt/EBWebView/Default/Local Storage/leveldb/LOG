@@ -1,3 +1,2 @@
-2026/10/22-01:40:06.599 47d4 Reusing MANIFEST D:\JWD Café Projects\JWD Café Project (servlet version)\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001
-2026/10/22-01:40:06.600 47d4 Recovering log #3
-2026/10/22-01:40:06.605 47d4 Reusing old log D:\JWD Café Projects\JWD Café Project (servlet version)\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/000003.log 
+2026/10/22-11:05:49.315 3c84 Creating DB D:\cafe-project-servlet-version\Caf-Project-Servlet-Version\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb since it was missing.
+2026/10/22-11:05:49.329 3c84 Reusing MANIFEST D:\cafe-project-servlet-version\Caf-Project-Servlet-Version\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Local Storage\leveldb/MANIFEST-000001

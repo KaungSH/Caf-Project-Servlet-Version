@@ -1,0 +1,947 @@
+
+Gemini
+
+New chat
+Library
+Images
+Scheduled
+Customize
+Videos
+New notebook
+Java Servlet ဖိုင်ပြင်ဆင်ခြင်း
+Spring Boot မှ Servlet သို့ပြောင်းရန်
+Discount CRUD Servlet JSP Implementation
+Spring Boot မှ Servlet JSP သို့ ပြောင်းရန်
+Spring Boot ကို Servlet JSP သို့ပြောင်းရန် Login စနစ်တည်ဆောက်ခြင်း
+Categories မပေါ်ရခြင်းနှင့် ဖြေရှင်းနည်း
+Spring Boot and Database Analysis
+Fixing Unstyled JSP Pages
+Spring Boot မှ Servlet JSP သို့ ပြောင်းရန်
+Spring Boot to Servlet Migration Guide
+Spring Boot to Servlet Migration Guide
+Spring RowMapper တွင် Servlet သုံးရန်
+Spring Boot မှ Servlet သို့ ပြောင်းလဲခြင်း
+DBConnection ရှာမတွေ့သည့် ပြဿနာဖြေရှင်းနည်း
+Spring Boot ကို Servlet JSP သို့ ပြောင်းရန်
+ယာဖေး ဇာတ်ကောင် မိတ်ဆက်
+Spring Boot DAO ကို JSP/Servlet သို့ ပြောင်းလဲခြင်း
+Spring MVC မှ Servlet သို့ ကူးပြောင်းခြင်း
+Spring Boot မှ JSP Servlet သို့ ပြောင်းလဲခြင်း
+Spring Boot မှ JSP သို့ ပြောင်းရန် တောင်းဆိုချက်
+Spring Boot to Servlet JSP Conversion
+package cafe.project; import org.springframework.boot.SpringApplication; import org.springframewor
+Java Package တည်ဆောက်ခြင်း အမှားပြင်ဆင်ရန်
+ကဖေးဆော့ဖ်ဝဲ ဆက်လက်ရေးသားရန် အကြံပြုချက်များ
+Manager Sidebar Servlet JSP ရေးနည်း
+Servlet နှင့် JSP ဖြင့် ပြန်လည်ရေးသားခြင်း
+Blades of the Guardians ကာတွန်းအကြောင်း
+Spring Boot မှ Servlet JSP သို့ ပြောင်းရန် လမ်းညွှန်
+Café Luft ဖောက်သည်အုပ်စုများ ရှင်းလင်းချက်
+မန်နေဂျာ စနစ် တင်ပြချက် ဖန်တီးခြင်း
+Manager Sidebar စာသားပြင်ဆင်မှု
+မန်နေဂျာပိုင်း Presentation Script
+Sidebar Scroll ပြန်တက်ခြင်း ဖြေရှင်းနည်း
+ပြေစာ PDF Download ပြုလုပ်ပုံ ပြင်ဆင်ခြင်း
+Payment ပြီးလျှင် PDF ဒေါင်းလုဒ်ဆွဲရန် ပြင်ဆင်ခြင်း
+Untitled
+Café Manager Module Presentation Notes
+Manager Slide ပြင်ဆင်ခြင်း
+System Features PPTX ဖိုင်ထုတ်ပေးခြင်း
+System Features PPTX Presentation
+PPTX ဖိုင်ပြောင်းလဲ သိမ်းဆည်းနည်း
+User Roles Presentation Generator
+အိုဘက်ဂျက်များကို Group ဖွဲ့နည်း
+ဆရာမအား Project ရှင်းပြရန် လမ်းညွှန်
+VPN ရွေးချယ်အသုံးပြုရန် လမ်းညွှန်
+အကူအညီတောင်းခံခြင်း
+JetBrains Mono Font Integration
+Sidebar ဖောင့်မတူခြင်း ပြဿနာ ဖြေရှင်းရန်
+မျက်နှာပြင်ခါခြင်း ပြဿနာဖြေရှင်းနည်း
+Sidebar Scroll ပြဿနာ ဖြေရှင်းခြင်း
+Unit ဘောင်ပေါ်ရခြင်းအကြောင်းရင်းနှင့် ပြင်ဆင်နည်း
+Untitled
+Sidebar Profile မပေါ်ခြင်း ပြဿနာဖြေရှင်းရန်
+Fixing Profile HTML and Thymeleaf Form
+Thymeleaf Admin Sidebar Refactoring
+Resolving Thymeleaf Template Input Exception
+Sidebar Logo တွင် Profile ပုံထည့်သွင်းခြင်း
+Untitled
+Bootstrap Icon အကြောင်း သိကောင်းစရာ
+Sidebar Profile Modal Integration
+Thymeleaf Sidebar Profile အချက်အလက်များ ထည့်သွင်းခြင်း
+Café Luft Profile UI Implementation
+Café Luft Admin Brand HTML ပြင်ဆင်ခြင်း
+Unit Management Page UI Design
+ပုံနှစ်ပုံ မျက်နှာအမူအရာ ဖလှယ်ခြင်း
+ဘယ်ဘက်လက်မြှောက်ရန် ပုံပြင်ဆင်ချက်
+Untitled
+Thymeleaf Category Management Design
+Waste Log အနီရောင်ဖြစ်နေရခြင်း အကြောင်းအရင်း
+Sidebar နှင့် Java (Spring Boot) ချိတ်ဆက်ရန်
+Sidebar Logo အရောင်များ ပြောင်းလဲခြင်း
+Mock Data for PDF Receipt
+PDF တွင် Discount ထည့်သွင်းခြင်း
+HTML Form ကို အလည်ရွှေ့ခြင်း
+HTML Box အလည်ရွှေ့နည်း
+iTextPDF Receipt Generator Fix
+Untitled
+Untitled
+Thermal Receipt Dynamic Height Setup
+Untitled
+Git Push အမှား ဖြေရှင်းနည်း
+Narrowing the Form Box in Thymeleaf
+Narrowing a Thymeleaf Layout Form
+Program လျှောက်လွှာမေးခွန်းအတွက် အဖြေပုံစံများ
+Incomplete Color Query
+Coffee Shop Sidebar Code Explanation
+Manager Sidebar အရောင်ပြောင်းနည်း
+Aligning Login Page Right
+Git အလုပ်လုပ်ပုံ အဆင့်ဆင့်
+PDF Receipt Discount Display
+PDF ထည့်သွင်းရန် Discount ဖြည့်စွက်နည်း
+Coffee House Login Page Design
+Coffee Shop Login Page Refactoring
+Employee Login | Coffee House BODY: <!DOCTYPE html> <html xmlns:th="http://www.thymeleaf.org" lang="en">
+Git Git Pull Error ဖြေရှင်းနည်း
+ReceiptPdfGenerator ပြန်လည်ရေးသားခြင်း
+Git Push အောင်မြင်မှုနှင့် ကျန်ရှိနေသည့်ဖိုင်များ တင်ရန်နည်းလမ်း
+Java Local Class Error ဖြေရှင်းခြင်း
+ရေခဲသေတ္တာ Compressor မလည်ခြင်း အကြောင်းရင်းနှင့် ဖြေရှင်းနည်း
+GitHub သို့ Git Push လုပ်နည်း
+iText PDF Receipt Generator Refactoring
+Cafe Receipt PDF Generation Error Fixes
+MySQL Table ထဲသို့ Data ထည့်သွင်းနည်း
+ReceiptPdfGenerator Error ဖြေရှင်းနည်း
+Cafe Management System Presentation Script
+Spring Boot POS Voucher PDF ထည့်သွင်းနည်း
+Untitled
+Spring Boot PDF Receipt Integration
+ReceiptPdfGenerator ကို ပရောဂျက်တွင် အသုံးပြုနည်း
+Restaurant Management Presentation Script and Notes
+Presentation Script and Architecture Overview
+Receipt PDF Generator Output
+Java Receipt PDF Generation Code
+PDF Voucher Generation Controller
+ဂျာဗားဖြင့် ဘောက်ချာဖြတ်ပိုင်း ရေးသားနည်း
+Empty Dialog
+စီမံကိန်းအမျိုးအစားနှင့် နည်းပညာရှင်းလင်းချက်
+Cafe Management System Presentation
+Athlete Career and Style Comparison
+PowerPoint တွင် အနီမျဉ်းဖျောက်ရန်
+PowerPoint မြန်မာစာကို အင်္ဂလိပ်စာပြောင်းရန်
+စနစ်အခက်အခဲများ ဘာသာပြန်ဆိုချက်
+PDF မှ PowerPoint ဖိုင်ပြောင်းလဲခြင်းနှင့် အချက်အလက်များ
+Natural English Speaking Strategies
+PDF ဖိုင်များကို PowerPoint တွင် ပြင်ဆင်နည်း
+Cafe Management System Presentation Translation
+Cafe Management System Presentation
+Cafe Management System Presentation Deck
+Cafe Project Presentation ပြင်ဆင်ရန်လမ်းညွှန်
+Coffee Shop Management Presentation
+PDF ဖိုင်ကို PowerPoint ထဲထည့်နည်း
+MySQL တွင် ERD ကြည့်ရှုနည်းများ
+Coffee Shop PC Wallpaper
+Coffee Shop POS Register UI
+Seeking Her Name
+Café Shop Home Page UI
+Spring Boot Cafe Sidebar UI Setup
+Spring Boot တွင် Login နှင့် Home Page ပြုလုပ်နည်း
+Untitled
+Login ဝင်မရခြင်း အကြောင်းရင်းနှင့် ဖြေရှင်းနည်း
+Database ဇယားကွက်အချက်အလက်များ ဖြည့်သွင်းနည်း
+Untitled
+Employees ဇယားတွင် ဒေတာထည့်သွင်းခြင်း
+Telegram ဗားရှင်းသုံးခု ကွာခြားချက်များ
+Identifying Battle Through the Heavens
+Employee Login | Coffee House --- PARAGRAPH: * **Brand Name**: Coffee House * **Page Type**: Employee Login page *
+ဒေတာထည့်သွင်းရန် လမ်းညွှန်
+Spring Boot URL 404 Error ဖြေရှင်းခြင်း
+Modern Login Page Code
+အကြည်ရောင်ကို English လို ဘယ်လိုခေါ်လဲ
+အရှိန်မြှင့်ဗို့အား ဘာသာပြန်ဆိုချက်
+Project Directory Structure Organization
+VS Code တွင် Live Server ဖွင့်နည်း
+Run မရခြင်း ပြဿနာ ဖြေရှင်းနည်း
+Naruto's Eight Trigrams Seal Discussion
+PC Lock Screen Wallpaper ပြောင်းနည်း
+Untitled
+Chrome တွင် HTML ဖိုင် Run နည်း
+VS Code ဒေါင်းလုဒ်ဆွဲခြင်းနှင့် ထည့်သွင်းခြင်း
+Apache Tomcat Service ထည့်သွင်းနည်း
+GitHub ကို Eclipse ထဲသို့ ထည့်သွင်းနည်း
+Untitled
+Codes များကို Git ပေါ်တင်နည်း
+Untitled
+How to Install MySQL
+Untitled
+Untitled
+Eclipse တွင် အစိမ်းရောင် Run Icon ပေါ်အောင်လုပ်နည်း
+How to Install Eclipse IDE
+ပရောဂျက်ဖိုင်များနှင့် မော်ဂျူးများ ရှင်းလင်းချက်
+Role-Based URL Mapping Cleanup
+လူပုံတစ်ခုတည်း ပုံဖော်ခြင်း
+Unique Mobile တွင် လက်ပ်တော့လဲလှယ်နိုင်ခြင်းရှိမရှိ
+ERD ရှင်းလင်းချက်နှင့် Presentation လမ်းညွှန်
+HP Laptop LCD ကြိုး ဈေးနှုန်း
+Google Sheets တွင် ရက်စွဲထည့်သွင်းခြင်း
+Understanding Abbreviations and Their Types
+၁၈ နှစ်ပြည့် ပုံစံပြောင်းလဲခြင်း
+ပုံနှစ်ပုံ မျက်နှာချင်း အစားထိုးခြင်း
+ပထမပုံရဲ့မျက်နှာကိုဒုတိယပုံရဲ့မျက်နှာနဲ့တူအောင်လုပ်ပေးပါ
+ဖက်ရှင်ပြင်ဆင်ခြင်းနှင့် ပုံတိုးချဲ့ခြင်း
+ပုံအရည်အသွေး မြှင့်တင်ခြင်း
+MySQL Diagram ဖွင့်နည်းများ
+ငြိမ်းချမ်းရေးသင်္ကေတပြရန် ရုပ်ပုံပြုပြင်ခြင်း
+Spring Boot အလုပ်လုပ်ပုံ စီးဆင်းမှုရှင်းလင်းချက်
+Warcraft III Hero Model ထည့်သွင်းနည်း
+ChatGPT လင့်ခ်ဖွင့်၍မရခြင်း
+Warcraft III Binary Asset Analysis
+Canva အသုံးပြုနည်း အမှားအယွင်း
+ပုံဖန်တီးရန် Free App ရှာဖွေခြင်း
+Logo ဖန်တီးရန် သင့်တော်သော App များ
+ဘာAi နဲ့ဖန်တီးထားတာလဲ
+ပုံ ကြည်အောင် လုပ်ခြင်း မအောင်မြင်ပါ
+4K ဓာတ်ပုံ အလင်းအရိပ်ချိန်ညှိခြင်း
+Anime Action Scene Enhancement
+Identifying Zoey from Animation
+Warcraft 3 Map ထည့်နည်း
+Real-time protection ပြန်ဖွင့်နည်း
+VS Code Start Menu Folder ရွေးချယ်ခြင်း
+C# ဘာအမျိုးအစားလဲ
+အာ ငယ်တုန်းက သောက်တဲ့ပါ nitrogen ကို
+Identifying Wolfgang Amadeus Mozart
+Makoto Shinkai Style Anime Background
+Anime Isekai Cinematic Scene Transformation
+STLC အဆင့်များ PDF ပြင်ဆင်ခြင်း
+STLC အကြောင်းအရာ ပြင်ဆင်မှု
+စာလုံးကြီးပြီးစာမျက်နှာနဲ့အဆင်ပြည်အောင်လုပ်ပေးပါ
+SDLC နှင့် STLC - ကွာခြားချက်များ
+Software Testing Life Cycle Phases
+Software Development Life Cycle (SDLC) အကြောင်း
+SDLC Testing Presentation Files Explained
+တစ်နေ့ကိုကြက်ဉနှစ်လုံးနဲ့ငှက်ပျောသီးတစ်လုံးစာပေးရင်ဘာဖြစ်လာနိုင်လဲ
+Debugging Java JDBC Query Errors
+GitHub အခြေခံ သုံးနည်းလမ်းညွှန်
+Apartment Inquiry
+Image Editing Request Denied
+MySQL Workbench Foreign Key Error
+Employee management system erd လုပ်ပြပါ
+Make the photo move as shown in the video
+Java ကျောင်းသား ID ကဒ်စနစ်
+ဘာerror လဲ
+Java နဲ့ MySQL ချိတ်ဆက်နည်း
+MySQL update လုပ်ပြပါ
+Mastering Java Core Concepts
+Image Edit Request Declined
+Change the short clothes
+Data Hiding နှင့် Java Encapsulation
+Maintainability ဆိုတာ ရေးထားတဲ့ code ကို ပြင်ရလွယ်၊ update လုပ်ရလွယ် တယ်ဆိုတာကိုရှင်းပြပါ
+OOP: Core Concepts and Importance
+change in profit ပုံ ဖန်တီးပေးပါ
+အဲ့တာတွေ နဲ့ ပတ်သက်တဲ့ ပုံတချို့ လုပ်ပေးပါ
+Market Equilibrium Presentation Structure
+Generics: Flexible, Reusable Code
+Generic Type Programming ၏ အကျဉ်းချုပ်
+Java Evolution: ခရီးစဉ်နှင့် အနာဂတ်
+Java Character Type Checker Program
+Java Method အသုံးပြုနည်း
+Code Output နှင့် Condition ရှင်းလင်းချက်
+Java တွင် Greater Than Operator
+Acknowledgment and Next Steps
+Switch အသုံးများပုံများ
+ရေးပြပါ
+Operator Precedence နှင့် Associativity နိယာမများ
+What is "="ဖြေပြပါ
+တွက်ပြပါ
+Conversation with Gemini
+package com.cafeluft.servlet;
+
+
+
+import com.cafeluft.dao.DBConnection;
+
+import com.cafeluft.dao.WasteLogDAO;
+
+import com.cafeluft.model.WasteLog;
+
+import com.cafeluft.model.WasteReason;
+
+
+
+import jakarta.servlet.ServletException;
+
+import jakarta.servlet.annotation.WebServlet;
+
+import jakarta.servlet.http.HttpServlet;
+
+import jakarta.servlet.http.HttpServletRequest;
+
+import jakarta.servlet.http.HttpServletResponse;
+
+
+
+import java.io.IOException;
+
+import java.math.BigDecimal;
+
+import java.sql.*;
+
+import java.util.ArrayList;
+
+import java.util.List;
+
+import java.util.UUID;
+
+
+
+@WebServlet("/manager/wastelogs")
+
+public class WasteLogServlet extends HttpServlet {
+
+    private WasteLogDAO wasteLogDAO;
+
+
+
+    @Override
+
+    public void init() {
+
+        wasteLogDAO = new WasteLogDAO();
+
+    }
+
+
+
+    @Override
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String action = req.getParameter("action");
+
+        if (action == null) action = "list";
+
+
+
+        String branchId = (String) req.getSession().getAttribute("branchId");
+
+        if (branchId == null) {
+
+            branchId = "1"; // Default fallback branch if session is not configured yet
+
+        }
+
+
+
+        try {
+
+            switch (action) {
+
+                case "new" -> showNewForm(req, resp, branchId);
+
+                case "edit" -> showEditForm(req, resp, branchId);
+
+                case "delete" -> deleteLog(req, resp, branchId);
+
+                default -> listLogs(req, resp, branchId);
+
+            }
+
+        } catch (SQLException e) {
+
+            throw new ServletException("Database error in WasteLogServlet", e);
+
+        }
+
+    }
+
+
+
+    @Override
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String action = req.getParameter("action");
+
+        String branchId = (String) req.getSession().getAttribute("branchId");
+
+        if (branchId == null) branchId = "1";
+
+
+
+        try {
+
+            if ("update".equals(action)) {
+
+                updateLog(req, resp, branchId);
+
+            } else {
+
+                createLog(req, resp, branchId);
+
+            }
+
+        } catch (SQLException e) {
+
+            throw new ServletException("Failed to persist WasteLog", e);
+
+        }
+
+    }
+
+
+
+    private void listLogs(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+
+            throws SQLException, ServletException, IOException {
+
+        List<WasteLog> logs = wasteLogDAO.findAllByBranch(branchId);
+
+        req.setAttribute("logs", logs);
+
+     
+
+        req.getRequestDispatcher("/WEB-INF/views/wastelogs/list.jsp").forward(req, resp);
+
+    }
+
+
+
+    private void showNewForm(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+
+            throws SQLException, ServletException, IOException {
+
+        loadFormDependencies(req, branchId);
+
+     
+
+    
+
+        req.getRequestDispatcher("/WEB-INF/views/wastelogs/form.jsp").forward(req, resp);
+
+    }
+
+
+
+    private void showEditForm(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+
+            throws SQLException, ServletException, IOException {
+
+        String id = req.getParameter("id");
+
+        WasteLog existing = wasteLogDAO.findById(id);
+
+        req.setAttribute("log", existing);
+
+        loadFormDependencies(req, branchId);
+
+    
+
+        req.getRequestDispatcher("/WEB-INF/views/wastelogs/form.jsp").forward(req, resp);
+
+    }
+
+
+
+    private void createLog(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+
+            throws SQLException, IOException {
+
+        WasteLog log = new WasteLog();
+
+        log.setWasteId(UUID.randomUUID().toString());
+
+        log.setBatchId(req.getParameter("batchId"));
+
+        log.setWasteReasonId(req.getParameter("wasteReasonId"));
+
+        log.setQuantityLost(new BigDecimal(req.getParameter("quantityLost")));
+
+        log.setFinancialLoss(new BigDecimal(req.getParameter("financialLoss")));
+
+        
+
+        String employeeId = (String) req.getSession().getAttribute("employeeId");
+
+        log.setEmployeeId(employeeId != null ? employeeId : "manager-1");
+
+        log.setNotes(req.getParameter("notes"));
+
+        log.setBranchId(branchId);
+
+
+
+        wasteLogDAO.insert(log);
+
+        resp.sendRedirect(req.getContextPath() + "/manager/wastelogs?status=created");
+
+    }
+
+
+
+    private void updateLog(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+
+            throws SQLException, IOException {
+
+        WasteLog log = new WasteLog();
+
+        log.setWasteId(req.getParameter("wasteId"));
+
+        log.setBatchId(req.getParameter("batchId"));
+
+        log.setWasteReasonId(req.getParameter("wasteReasonId"));
+
+        log.setQuantityLost(new BigDecimal(req.getParameter("quantityLost")));
+
+        log.setFinancialLoss(new BigDecimal(req.getParameter("financialLoss")));
+
+        log.setNotes(req.getParameter("notes"));
+
+        log.setBranchId(branchId);
+
+
+
+        wasteLogDAO.update(log);
+
+        resp.sendRedirect(req.getContextPath() + "/manager/wastelogs?status=updated");
+
+    }
+
+
+
+    private void deleteLog(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+
+            throws SQLException, IOException {
+
+        String id = req.getParameter("id");
+
+        wasteLogDAO.softDelete(id, branchId);
+
+        resp.sendRedirect(req.getContextPath() + "/manager/wastelogs?status=deleted");
+
+    }
+
+
+
+    private void loadFormDependencies(HttpServletRequest req, String branchId) throws SQLException {
+
+        List<WasteReason> reasons = new ArrayList<>();
+
+        List<String> batches = new ArrayList<>();
+
+
+
+        try (Connection con = DBConnection.getConnection()) {
+
+            // Load waste reasons
+
+            try (PreparedStatement ps = con.prepareStatement("SELECT * FROM waste_reasons WHERE waste_reason_id != 'deleted'");
+
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    reasons.add(new WasteReason(rs.getString("waste_reason_id"), rs.getString("reason_name")));
+
+                }
+
+            }
+
+
+
+            // Load active batch IDs for this branch
+
+            try (PreparedStatement ps = con.prepareStatement(
+
+                    "SELECT batch_id FROM ingredient_batches WHERE isdeleted = 0 AND branch_id = ?");
+
+                 ) {
+
+                ps.setString(1, branchId);
+
+                try (ResultSet rs = ps.executeQuery()) {
+
+                    while (rs.next()) {
+
+                        batches.add(rs.getString("batch_id"));
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        req.setAttribute("reasons", reasons);
+
+        req.setAttribute("batches", batches);
+
+    }
+
+}Files ထဲထည့်လို့ရအောင် code ပြင်ပေးပါ
+
+သင်၏ project structure (package cafe.project.servlet.servlets.products နှင့် MyConnection) နှင့် ကိုက်ညီစေရန် ပြင်ဆင်ထားသော WasteLogServlet.java ဖိုင်ကို အဆင်သင့် ပြုလုပ်ပေးလိုက်ပါပြီ။
+
+Your Java file is ready
+
+JAVA icon
+WasteLogServlet
+ JAVA 
+ပြင်ဆင်ထားသော အချက်များ (Changes made):
+Package Name: သင့် project ၏ ဖိုင်လမ်းကြောင်း (src/main/java/cafe/project/servlet/servlets/products/) နှင့် ကိုက်ညီစေရန် package cafe.project.servlet.servlets.products; သို့ ပြောင်းလဲထားပါသည်။
+
+Database Connection: Project အတွင်းရှိ connection utility ဖြစ်သော cafe.project.servlet.utils.MyConnection ကို အသုံးပြုထားပါသည်။
+
+Imports: ကျန်ရှိသော DAO/Model references များကို Project structure နဲ့ အံဝင်ခွင်ကျ ဖြစ်စေရန် ချိန်ညှိပေးထားပါသည်။
+
+အထက်ပါဖိုင်ကို သင့် project ရဲ့ သက်ဆိုင်ရာ directory ထဲသို့ ထည့်သွင်းအသုံးပြုနိုင်ပါသည်။
+
+package com.cafeluft.dao;
+
+
+
+import com.cafeluft.model.WasteLog;
+
+
+
+import java.sql.*;
+
+import java.util.ArrayList;
+
+import java.util.List;
+
+
+
+public class WasteLogDAO {
+
+
+
+    public List<WasteLog> findAllByBranch(String branchId) throws SQLException {
+
+        List<WasteLog> list = new ArrayList<>();
+
+        String sql = "SELECT w.*, r.reason_name, e.name AS employee_name " +
+
+                     "FROM waste_logs w " +
+
+                     "LEFT JOIN waste_reasons r ON w.waste_reason_id = r.waste_reason_id " +
+
+                     "LEFT JOIN employees e ON w.employee_id = e.employee_id " +
+
+                     "WHERE w.isdeleted = 0 AND w.branch_id = ? " +
+
+                     "ORDER BY w.logged_at DESC";
+
+
+
+        try (Connection con = DBConnection.getConnection();
+
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, branchId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    WasteLog log = mapRow(rs);
+
+                    log.setReasonName(rs.getString("reason_name"));
+
+                    log.setEmployeeName(rs.getString("employee_name"));
+
+                    list.add(log);
+
+                }
+
+            }
+
+        }
+
+        return list;
+
+    }
+
+
+
+    public WasteLog findById(String wasteId) throws SQLException {
+
+        String sql = "SELECT * FROM waste_logs WHERE waste_id = ? AND isdeleted = 0";
+
+        try (Connection con = DBConnection.getConnection();
+
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, wasteId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+
+                    return mapRow(rs);
+
+                }
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+
+
+    public boolean insert(WasteLog log) throws SQLException {
+
+        String sql = "INSERT INTO waste_logs (waste_id, batch_id, waste_reason_id, quantity_lost, " +
+
+                     "financial_loss, employee_id, notes, isdeleted, branch_id) " +
+
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?)";
+
+        try (Connection con = DBConnection.getConnection();
+
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, log.getWasteId());
+
+            ps.setString(2, log.getBatchId());
+
+            ps.setString(3, log.getWasteReasonId());
+
+            ps.setBigDecimal(4, log.getQuantityLost());
+
+            ps.setBigDecimal(5, log.getFinancialLoss());
+
+            ps.setString(6, log.getEmployeeId());
+
+            ps.setString(7, log.getNotes());
+
+            ps.setString(8, log.getBranchId());
+
+            return ps.executeUpdate() > 0;
+
+        }
+
+    }
+
+
+
+    public boolean update(WasteLog log) throws SQLException {
+
+        String sql = "UPDATE waste_logs SET batch_id = ?, waste_reason_id = ?, quantity_lost = ?, " +
+
+                     "financial_loss = ?, notes = ? WHERE waste_id = ? AND branch_id = ?";
+
+        try (Connection con = DBConnection.getConnection();
+
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, log.getBatchId());
+
+            ps.setString(2, log.getWasteReasonId());
+
+            ps.setBigDecimal(3, log.getQuantityLost());
+
+            ps.setBigDecimal(4, log.getFinancialLoss());
+
+            ps.setString(5, log.getNotes());
+
+            ps.setString(6, log.getWasteId());
+
+            ps.setString(7, log.getBranchId());
+
+            return ps.executeUpdate() > 0;
+
+        }
+
+    }
+
+
+
+    public boolean softDelete(String wasteId, String branchId) throws SQLException {
+
+        String sql = "UPDATE waste_logs SET isdeleted = 1 WHERE waste_id = ? AND branch_id = ?";
+
+        try (Connection con = DBConnection.getConnection();
+
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, wasteId);
+
+            ps.setString(2, branchId);
+
+            return ps.executeUpdate() > 0;
+
+        }
+
+    }
+
+
+
+    private WasteLog mapRow(ResultSet rs) throws SQLException {
+
+        WasteLog log = new WasteLog();
+
+        log.setWasteId(rs.getString("waste_id"));
+
+        log.setBatchId(rs.getString("batch_id"));
+
+        log.setWasteReasonId(rs.getString("waste_reason_id"));
+
+        log.setQuantityLost(rs.getBigDecimal("quantity_lost"));
+
+        log.setFinancialLoss(rs.getBigDecimal("financial_loss"));
+
+        log.setEmployeeId(rs.getString("employee_id"));
+
+        log.setLoggedAt(rs.getTimestamp("logged_at"));
+
+        log.setNotes(rs.getString("notes"));
+
+        log.setDeleted(rs.getBoolean("isdeleted"));
+
+        log.setBranchId(rs.getString("branch_id"));
+
+        return log;
+
+    }
+
+}
+
+Files ထဲထည့်လို့ရအောင် code ပြင်ပေးပါ
+
+သင်၏ project structure (package cafe.project.servlet.repositories နှင့် MyConnection) နှင့် ကိုက်ညီစေရန် ပြင်ဆင်ထားသော WasteLogRepository.java (DAO ဖိုင်) ကို အဆင်သင့် ပြုလုပ်ပေးလိုက်ပါပြီ။
+
+Your Java repository file is ready
+
+JAVA icon
+WasteLogRepository
+ JAVA 
+ပြင်ဆင်ထားသော အချက်များ (Changes made):
+Package Name: cafe.project.servlet.repositories သို့ ပြောင်းလဲထားပါသည်။
+
+Model Import: com.cafeluft.model.WasteLog အစား cafe.project.servlet.repositories.entities.WasteLog ကို အသုံးပြုထားပါသည်။
+
+Database Connection: DBConnection.getConnection() အစား project တွင် ရှိပြီးသား cafe.project.servlet.utils.MyConnection.getConnection() ကို ချိတ်ဆက်အသုံးပြုထားပါသည်။
+
+အထက်ပါဖိုင်ကို သင့် project ၏ src/main/java/cafe/project/servlet/repositories/ ဖိုလ်ဒါထဲသို့ ထည့်သွင်းအသုံးပြုနိုင်ပါသည်။
+
+
+
+
+
+Gemini is AI and can make mistakes.
+
+Analyzing
+package cafe.project.servlet.repositories;
+
+import cafe.project.servlet.repositories.entities.WasteLog;
+import cafe.project.servlet.utils.MyConnection;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class WasteLogRepository {
+
+    public List<WasteLog> findAllByBranch(String branchId) throws SQLException {
+        List<WasteLog> list = new ArrayList<>();
+        String sql = "SELECT w.*, r.reason_name, e.name AS employee_name " +
+                     "FROM waste_logs w " +
+                     "LEFT JOIN waste_reasons r ON w.waste_reason_id = r.waste_reason_id " +
+                     "LEFT JOIN employees e ON w.employee_id = e.employee_id " +
+                     "WHERE w.isdeleted = 0 AND w.branch_id = ? " +
+                     "ORDER BY w.logged_at DESC";
+
+        try (Connection con = MyConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, branchId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    WasteLog log = mapRow(rs);
+                    log.setReasonName(rs.getString("reason_name"));
+                    log.setEmployeeName(rs.getString("employee_name"));
+                    list.add(log);
+                }
+            }
+        }
+        return list;
+    }
+
+    public WasteLog findById(String wasteId) throws SQLException {
+        String sql = "SELECT * FROM waste_logs WHERE waste_id = ? AND isdeleted = 0";
+        try (Connection con = MyConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, wasteId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapRow(rs);
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean insert(WasteLog log) throws SQLException {
+        String sql = "INSERT INTO waste_logs (waste_id, batch_id, waste_reason_id, quantity_lost, " +
+                     "financial_loss, employee_id, notes, isdeleted, branch_id) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?)";
+        try (Connection con = MyConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, log.getWasteId());
+            ps.setString(2, log.getBatchId());
+            ps.setString(3, log.getWasteReasonId());
+            ps.setBigDecimal(4, log.getQuantityLost());
+            ps.setBigDecimal(5, log.getFinancialLoss());
+            ps.setString(6, log.getEmployeeId());
+            ps.setString(7, log.getNotes());
+            ps.setString(8, log.getBranchId());
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public boolean update(WasteLog log) throws SQLException {
+        String sql = "UPDATE waste_logs SET batch_id = ?, waste_reason_id = ?, quantity_lost = ?, " +
+                     "financial_loss = ?, notes = ? WHERE waste_id = ? AND branch_id = ?";
+        try (Connection con = MyConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, log.getBatchId());
+            ps.setString(2, log.getWasteReasonId());
+            ps.setBigDecimal(3, log.getQuantityLost());
+            ps.setBigDecimal(4, log.getFinancialLoss());
+            ps.setString(5, log.getNotes());
+            ps.setString(6, log.getWasteId());
+            ps.setString(7, log.getBranchId());
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public boolean softDelete(String wasteId, String branchId) throws SQLException {
+        String sql = "UPDATE waste_logs SET isdeleted = 1 WHERE waste_id = ? AND branch_id = ?";
+        try (Connection con = MyConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, wasteId);
+            ps.setString(2, branchId);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    private WasteLog mapRow(ResultSet rs) throws SQLException {
+        WasteLog log = new WasteLog();
+        log.setWasteId(rs.getString("waste_id"));
+        log.setBatchId(rs.getString("batch_id"));
+        log.setWasteReasonId(rs.getString("waste_reason_id"));
+        log.setQuantityLost(rs.getBigDecimal("quantity_lost"));
+        log.setFinancialLoss(rs.getBigDecimal("financial_loss"));
+        log.setEmployeeId(rs.getString("employee_id"));
+        log.setLoggedAt(rs.getTimestamp("logged_at"));
+        log.setNotes(rs.getString("notes"));
+        log.setDeleted(rs.getBoolean("isdeleted"));
+        log.setBranchId(rs.getString("branch_id"));
+        return log;
+    }
+}
+WasteLogRepository.java
+Displaying WasteLogRepository.java.
