@@ -1,0 +1,75 @@
+package cafe.project.servlet.repositories;
+
+import java.time.LocalDateTime;
+
+public class IngredientTypeDAO {
+	public class IngredientTypes {
+		private String ingredientTypeId;
+		private String name;
+		private String description;
+		private String unitId;
+		private String unitName;
+		private LocalDateTime createdAt;
+		private boolean isDeleted;
+
+		public IngredientTypes() {
+
+		}
+
+		public String getIngredientTypeId() {
+			return ingredientTypeId;
+		}
+
+		public void setIngredientTypeId(String ingredientTypeId) {
+			this.ingredientTypeId = ingredientTypeId;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+
+		public String getUnitId() {
+			return unitId;
+		}
+
+		public void setUnitId(String unitId) {
+			this.unitId = unitId;
+		}
+
+		public String getUnitName() {
+			return unitName;
+		}
+
+		public void setUnitName(String unitName) {
+			this.unitName = unitName;
+		}
+
+		public LocalDateTime getCreatedAt() {
+			return createdAt;
+		}
+
+		public void setCreatedAt(LocalDateTime createdAt) {
+			this.createdAt = createdAt;
+		}
+
+		public boolean getIsDeleted() {
+			return isDeleted;
+		}
+
+		public void setIsDeleted(boolean isDeleted) {
+			this.isDeleted = isDeleted;
+		}
+
+}

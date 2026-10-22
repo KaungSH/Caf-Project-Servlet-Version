@@ -19,4 +19,9 @@
 			<item value="servlet"/>
 		</list>
 	</section>
+	<section name="java.lang.Class">
+		<item key="replaceBarOpen" value="false"/>
+		<list key="findhistory">
+		</list>
+	</section>
 </section>

@@ -1,0 +1,206 @@
+package cafe.project.servlet.repositories;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import cafe.project.servlet.models.IngredientTypes;
+import cafe.project.servlet.utils.MyConnection;
+
+public class IngredientTypeDAO {
+
+	public static class UnitOption {
+		private String unitID;
+		private String name;
+		private String abbreviation;
+
+		public UnitOption(String unitId, String name, String abbreviation) {
+			this.unitID = unitId;
+			this.name = name;
+			this.abbreviation = abbreviation;
+		}
+
+		public String getUnitID() {
+			return unitID;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getAbbreviation() {
+			return abbreviation;
+		}
+	}
+
+	private IngredientTypes mapRow(ResultSet rs) throws SQLException {
+
+		IngredientTypes item = new IngredientTypes();
+
+		item.setIngredientTypeId(rs.getString("ingredient_type_id"));
+		item.setName(rs.getString("name"));
+		item.setDescription(rs.getString("description"));
+		item.setUnitId(rs.getString("unit_id"));
+		item.setUnitName(rs.getString("unit_name"));
+		if (rs.getTimestamp("created_at") != null) {
+			item.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+		}
+		item.setIsDeleted(rs.getBoolean("isdeleted"));
+
+		return item;
+	}
+
+	public List<IngredientTypes> findAll(boolean deleted) throws SQLException {
+
+		List<IngredientTypes> list = new ArrayList<>();
+
+		String sql = "SELECT it.ingredient_type_id, it.name, it.description, it.unit_id, it.created_at, it.isdeleted, \r\n"
+				+ "u.name AS unit_name \r\n" + "FROM ingredient_types it JOIN units u ON it.unit_id = u.unit_id \r\n"
+				+ "WHERE it.isdeleted = ? ORDER BY it.created_at ASC";
+
+		try (Connection con = MyConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, deleted ? 1 : 0);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					list.add(mapRow(rs));
+				}
+			}
+		}
+		return list;
+	}
+
+	public IngredientTypes findById(String id) throws SQLException {
+
+		String sql = "SELECT it.ingredient_type_id, it.name,\r\n"
+				+ "it.description, it.unit_id, it.created_at, it.isdeleted, \r\n" + "u.name AS unit_name \r\n"
+				+ "FROM ingredient_types it JOIN units u ON it.unit_id = u.unit_id \r\n"
+				+ "WHERE it.ingredient_type_id = ?";
+
+		try (Connection con = MyConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, id);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					return mapRow(rs);
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public List<UnitOption> findActiveUnits() throws SQLException {
+
+		List<UnitOption> list = new ArrayList<>();
+
+		String sql = "SELECT unit_id, name, abbreviation FROM units WHERE isdeleted = 0 AND is_active = 1 ORDER BY name";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				list.add(new UnitOption(rs.getString("unit_id"), rs.getString("name"), rs.getString("abbreviation")));
+			}
+		}
+
+		return list;
+	}
+
+	public boolean nameExists(String name, String excludeId) throws SQLException {
+
+		String sql;
+
+		if (excludeId == null) {
+			sql = "SELECT COUNT(*) FROM ingredient_types " + "WHERE name = ?";
+		} else {
+			sql = "SELECT COUNT(*) FROM ingredient_types WHERE name = ? AND ingredient_type_id <> ?";
+		}
+
+		try (Connection con = MyConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, name);
+
+			if (excludeId != null) {
+				ps.setString(2, excludeId);
+			}
+
+			try (ResultSet rs = ps.executeQuery()) {
+				rs.next();
+				return rs.getInt(1) > 0;
+			}
+		}
+	}
+
+	public void add(IngredientTypes item) throws SQLException {
+
+		String sql = "INSERT INTO ingredient_types (ingredient_type_id, name, description, unit_id) VALUES (?, ?, ?, ?)";
+
+		try (Connection con = MyConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			String Id = UUID.randomUUID().toString();
+
+			ps.setString(1, Id);
+			ps.setString(2, item.getName());
+			ps.setString(3, item.getDescription());
+			ps.setString(4, item.getUnitId());
+
+			ps.executeUpdate();
+		}
+	}
+
+	public boolean edit(IngredientTypes item) throws SQLException {
+
+		String sql = "UPDATE ingredient_types SET name = ?, description = ?, unit_id = ? WHERE ingredient_type_id = ? AND isdeleted = 0";
+
+		try (Connection con = MyConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, item.getName());
+			ps.setString(2, item.getDescription());
+			ps.setString(3, item.getUnitId());
+			ps.setString(4, item.getIngredientTypeId());
+
+			return ps.executeUpdate() == 1;
+		}
+	}
+
+	public boolean softDelete(String id) throws SQLException {
+
+		String sql = "UPDATE ingredient_types SET isdeleted = 1 WHERE ingredient_type_id = ? AND isdeleted = 0";
+
+		try (Connection con = MyConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, id);
+			return ps.executeUpdate() == 1;
+		}
+	}
+
+	public boolean restore(String id) throws SQLException {
+
+		String sql = "UPDATE ingredient_types SET isdeleted = 0 WHERE ingredient_type_id = ? AND isdeleted = 1";
+
+		try (Connection con = MyConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, id);
+			return ps.executeUpdate() == 1;
+		}
+	}
+
+	public boolean permanentDelete(String id) throws SQLException {
+
+		String sql = "DELETE FROM ingredient_types WHERE ingredient_type_id = ? AND isdeleted = 1";
+
+		try (Connection con = MyConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, id);
+			return ps.executeUpdate() == 1;
+		}
+	}
+}

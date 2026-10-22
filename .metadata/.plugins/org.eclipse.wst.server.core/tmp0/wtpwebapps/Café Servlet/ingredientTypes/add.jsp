@@ -1,0 +1,217 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="java.util.List"%>
+<%@ page
+	import="cafe.project.servlet.repositories.IngredientTypeDAO.UnitOption"%>
+<%@ page import="cafe.project.servlet.repositories.IngredientTypeDAO"%>
+<%
+List<UnitOption> units = (List<UnitOption>) request.getAttribute("units");
+IngredientTypeDAO ingredientTypeDAO = new IngredientTypeDAO();
+if (units == null) {
+	try {
+		units = ingredientTypeDAO.findActiveUnits();
+	} catch (Exception e) {
+		units = new java.util.ArrayList<>();
+	}
+}
+
+String contextPath = request.getContextPath();
+
+String name = (String) request.getAttribute("formName");
+String description = (String) request.getAttribute("formDescription");
+String unitId = (String) request.getAttribute("formUnitId");
+
+String nameError = (String) request.getAttribute("nameError");
+String descriptionError = (String) request.getAttribute("descriptionError");
+String unitError = (String) request.getAttribute("unitError");
+
+if (name == null) {
+	name = "";
+}
+
+if (description == null) {
+	description = "";
+}
+
+if (unitId == null) {
+	unitId = "";
+}
+
+java.util.function.Function<String, String> esc = value -> {
+	if (value == null) {
+		return "";
+	}
+	return value.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&quot;").replace("'",
+	"&#39;");
+};
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Ingredient Type - Cafe Management System</title>
+
+<!-- Google Fonts & Bootstrap Icons -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+	rel="stylesheet">
+
+<!-- Centralized Cafe Theme -->
+<link rel="stylesheet" href="<%=contextPath%>/assets/css/cafe-theme.css">
+</head>
+
+<body>
+
+	<!-- Top Navigation Bar -->
+	<jsp:include page="/includes/navbar.jsp">
+		<jsp:param name="activeNav" value="ingredients" />
+	</jsp:include>
+
+	<main class="page-wrapper">
+		<div class="container">
+
+			<!-- Breadcrumb Navigation -->
+			<div class="cafe-breadcrumb"
+				style="max-width: 740px; margin: 0 auto 16px auto;">
+				<a href="<%=contextPath%>/home.jsp"><i
+					class="bi bi-house-door me-1"></i>Dashboard</a> <span class="separator"><i
+					class="bi bi-chevron-right"></i></span> <a
+					href="<%=contextPath%>/ingredientTypes">Ingredients</a> <span
+					class="separator"><i class="bi bi-chevron-right"></i></span> <span>Add
+					Ingredient Type</span>
+			</div>
+
+			<div class="form-container">
+
+				<div class="mb-4 pb-3 border-bottom">
+					<h1 class="page-title mb-1">
+						<i class="bi bi-droplet-half"></i>New Ingredient Specification
+					</h1>
+					<p class="page-subtitle">Configure an ingredient category or
+						recipe item for inventory tracking.</p>
+				</div>
+
+				<form action="<%=contextPath%>/ingredientTypes" method="post"
+					accept-charset="UTF-8" novalidate>
+					<input type="hidden" name="action" value="insert">
+
+					<!-- Ingredient Type Name -->
+					<div class="mb-3">
+						<label for="name" class="form-label"> Ingredient Type Name
+							<span class="required" aria-hidden="true">*</span>
+						</label> <input type="text" id="name" name="name"
+							class="form-control <%=nameError != null ? "is-invalid" : ""%>"
+							value="<%=esc.apply(name)%>" maxlength="100"
+							placeholder="e.g., Ethiopian Yirgacheffe Beans, Oat Milk, Vanilla Bean Syrup"
+							required>
+
+						<%
+						if (nameError != null) {
+						%>
+						<div class="field-error">
+							<i class="bi bi-exclamation-circle-fill"></i> <span><%=esc.apply(nameError)%></span>
+						</div>
+						<%
+						}
+						%>
+						<div class="form-text">Must be a unique name in the active
+							ingredient catalog.</div>
+					</div>
+
+					<!-- Description -->
+					<div class="mb-3">
+						<label for="description" class="form-label"> Description <span
+							class="required" aria-hidden="true">*</span>
+						</label>
+						<textarea id="description" name="description"
+							class="form-control <%=descriptionError != null ? "is-invalid" : ""%>"
+							rows="4" maxlength="255"
+							placeholder="Enter origin, flavor notes, packaging specs, or storage requirements..."
+							required><%=esc.apply(description)%></textarea>
+
+						<%
+						if (descriptionError != null) {
+						%>
+						<div class="field-error">
+							<i class="bi bi-exclamation-circle-fill"></i> <span><%=esc.apply(descriptionError)%></span>
+						</div>
+						<%
+						}
+						%>
+						<div class="form-text">Required specification. Maximum 255
+							characters.</div>
+					</div>
+
+					<!-- Unit -->
+					<div class="mb-4">
+						<label for="unitId" class="form-label"> Measurement Unit <span
+							class="required" aria-hidden="true">*</span>
+						</label> <select id="unitId" name="unitId"
+							class="form-select <%=unitError != null ? "is-invalid" : ""%>"
+							required>
+							<option value="">-- Choose Standard Unit --</option>
+							<%
+							if (units != null) {
+								for (UnitOption unit : units) {
+							%>
+							<option value="<%=esc.apply(unit.getUnitID())%>"
+								<%=unit.getUnitID() != null && unit.getUnitID().equals(unitId) ? "selected" : ""%>>
+								<%=esc.apply(unit.getName())%>
+								<%
+								if (unit.getAbbreviation() != null && !unit.getAbbreviation().isEmpty()) {
+								%> (<%=esc.apply(unit.getAbbreviation())%>)
+								<%
+								}
+								%>
+							</option>
+							<%
+							}
+							}
+							%>
+						</select>
+
+						<%
+						if (unitError != null) {
+						%>
+						<div class="field-error">
+							<i class="bi bi-exclamation-circle-fill"></i> <span><%=esc.apply(unitError)%></span>
+						</div>
+						<%
+						}
+						%>
+						<div class="form-text">Select how this ingredient is
+							measured during stock arrival and recipe brewing.</div>
+					</div>
+
+					<!-- Form Action Buttons -->
+					<div
+						class="d-flex justify-content-between align-items-center gap-2 pt-3 border-top">
+						<a href="<%=contextPath%>/ingredientTypes?action=list"
+							class="btn btn-outline-secondary"> <i class="bi bi-x-lg"></i>Cancel
+						</a>
+						<button type="submit" class="btn btn-primary">
+							<i class="bi bi-check2"></i>Save Ingredient Type
+						</button>
+					</div>
+
+				</form>
+
+			</div>
+		</div>
+	</main>
+
+	<!-- Footer -->
+	<jsp:include page="/includes/footer.jsp" />
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
