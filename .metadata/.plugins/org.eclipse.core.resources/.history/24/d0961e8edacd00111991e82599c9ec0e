@@ -1,0 +1,119 @@
+package cafe.project.servlet.servlets.products;
+
+import cafe.project.servlet.utils.MyConnection;
+import cafe.project.servlet.repositories.IngredientBatchRepository;
+import cafe.project.servlet.repositories.entities.IngredientBatch;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+@WebServlet("/manager/wastelogs")
+public class WasteLogServlet extends HttpServlet {
+    private IngredientBatchRepository ingredientBatchRepository;
+
+    @Override
+    public void init() {
+        ingredientBatchRepository = new IngredientBatchRepository();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        if (action == null) action = "list";
+
+        String branchId = (String) req.getSession().getAttribute("branchId");
+        if (branchId == null) {
+            branchId = "1"; // Default fallback branch if session is not configured yet
+        }
+
+        try {
+            switch (action) {
+                case "new" -> showNewForm(req, resp, branchId);
+                case "edit" -> showEditForm(req, resp, branchId);
+                case "delete" -> deleteLog(req, resp, branchId);
+                default -> listLogs(req, resp, branchId);
+            }
+        } catch (SQLException e) {
+            throw new ServletException("Database error in WasteLogServlet", e);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        String branchId = (String) req.getSession().getAttribute("branchId");
+        if (branchId == null) branchId = "1";
+
+        try {
+            if ("update".equals(action)) {
+                updateLog(req, resp, branchId);
+            } else {
+                createLog(req, resp, branchId);
+            }
+        } catch (SQLException e) {
+            throw new ServletException("Failed to persist WasteLog", e);
+        }
+    }
+
+    private void listLogs(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+            throws SQLException, ServletException, IOException {
+        // Implementation for listing waste logs
+        req.getRequestDispatcher("/WEB-INF/views/wastelogs/list.jsp").forward(req, resp);
+    }
+
+    private void showNewForm(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+            throws SQLException, ServletException, IOException {
+        loadFormDependencies(req, branchId);
+        req.getRequestDispatcher("/WEB-INF/views/wastelogs/form.jsp").forward(req, resp);
+    }
+
+    private void showEditForm(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+            throws SQLException, ServletException, IOException {
+        String id = req.getParameter("id");
+        loadFormDependencies(req, branchId);
+        req.getRequestDispatcher("/WEB-INF/views/wastelogs/form.jsp").forward(req, resp);
+    }
+
+    private void createLog(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+            throws SQLException, IOException {
+        resp.sendRedirect(req.getContextPath() + "/manager/wastelogs?status=created");
+    }
+
+    private void updateLog(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+            throws SQLException, IOException {
+        resp.sendRedirect(req.getContextPath() + "/manager/wastelogs?status=updated");
+    }
+
+    private void deleteLog(HttpServletRequest req, HttpServletResponse resp, String branchId) 
+            throws SQLException, IOException {
+        String id = req.getParameter("id");
+        resp.sendRedirect(req.getContextPath() + "/manager/wastelogs?status=deleted");
+    }
+
+    private void loadFormDependencies(HttpServletRequest req, String branchId) throws SQLException {
+        List<String> batches = new ArrayList<>();
+
+        try (Connection con = MyConnection.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement(
+                    "SELECT batch_id FROM ingredient_batches WHERE isdeleted = 0 AND branch_id = ?")) {
+                ps.setString(1, branchId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        batches.add(rs.getString("batch_id"));
+                    }
+                }
+            }
+        }
+        req.setAttribute("batches", batches);
+    }
+}

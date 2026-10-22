@@ -1,0 +1,27 @@
+package cafe.project.servlet.repositories.mappers;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import org.springframework.jdbc.core.RowMapper;
+import cafe.project.servlet.repositories.entities.WasteLog;
+
+public class WasteLogMapper implements RowMapper<WasteLog> {
+
+    @Override
+    public WasteLog mapRow(ResultSet rs, int rowNum) throws SQLException {
+        WasteLog wasteLog = new WasteLog();
+        wasteLog.setWasteId(rs.getString("waste_id"));
+        wasteLog.setBatchId(rs.getString("batch_id"));
+        wasteLog.setReasonId(rs.getString("reason_id"));
+        wasteLog.setQuantity(rs.getBigDecimal("quantity"));
+        wasteLog.setEmployeeId(rs.getString("employee_id"));
+        
+        Timestamp timestamp = rs.getTimestamp("logged_at");
+        if (timestamp != null) {
+            wasteLog.setLoggedAt(timestamp.toLocalDateTime());
+        }
+        
+        return wasteLog;
+    }
+}

@@ -1,0 +1,7 @@
+//org.springframework.ide.eclipse.xml.namespaces.default.version.http\://www.springframework.org/schema/beans=
+//org.springframework.ide.eclipse.xml.namespaces.default.version.http\://www.springframework.org/schema/c=
+//org.springframework.ide.eclipse.xml.namespaces.default.version.http\://www.springframework.org/schema/p=
+//org.springframework.ide.eclipse.xml.namespaces.default.version.http\://www.springframework.org/schema/util=
+//org.springframework.ide.eclipse.xml.namespaces.prefix.http\://www.springframework.org/schema/beans=beans
+eclipse.preferences.version=1
+org.springframework.ide.eclipse.xml.namespaces.enable.project.preferences=false
