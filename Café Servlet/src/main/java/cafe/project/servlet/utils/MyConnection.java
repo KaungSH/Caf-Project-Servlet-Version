@@ -14,7 +14,7 @@ public class MyConnection {
 			
 			String db = "jdbc:mysql://localhost:3306/final_cafe_db";
 			String username = "root";
-			String password = "12345";
+			String password = "280523";
 			
 			con = DriverManager.getConnection(db, username, password);
 			System.out.println("Connection Successful.");

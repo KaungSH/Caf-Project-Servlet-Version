@@ -1,0 +1,201 @@
+package cafe.project.servlet.models;
+
+public class StockImports {
+
+	private String importId;
+	private LocalDateTime importedAt;
+	private String employeeId;
+	private String employeeName;
+	private String branchId;
+	private String branchName;
+	private boolean isEdited;
+	private boolean isDeleted;
+	private LocalDateTime createdAt;
+	private String supplierId;
+	private String supplierName;
+	private BigDecimal totalCost;
+
+	public StockImports() {
+		this.totalCost = BigDecimal.ZERO;
+		this.isEdited = false;
+		this.isDeleted = false;
+	}
+
+	public String getImportId() {
+		return importId;
+	}
+
+	public void setImportId(String importId) {
+		this.importId = importId;
+	}
+
+	// Alias for snake_case compatibility
+	public String getImport_id() {
+		return importId;
+	}
+
+	public void setImport_id(String import_id) {
+		this.importId = import_id;
+	}
+
+	public LocalDateTime getImportedAt() {
+		return importedAt;
+	}
+
+	public void setImportedAt(LocalDateTime importedAt) {
+		this.importedAt = importedAt;
+	}
+
+	// Alias for snake_case compatibility
+	public LocalDateTime getImported_at() {
+		return importedAt;
+	}
+
+	public void setImported_at(LocalDateTime imported_at) {
+		this.importedAt = imported_at;
+	}
+
+	public String getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	// Alias for snake_case compatibility
+	public String getEmployee_id() {
+		return employeeId;
+	}
+
+	public void setEmployee_id(String employee_id) {
+		this.employeeId = employee_id;
+	}
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public String getBranchId() {
+		return branchId;
+	}
+
+	public void setBranchId(String branchId) {
+		this.branchId = branchId;
+	}
+
+	// Alias for snake_case compatibility
+	public String getBranch_id() {
+		return branchId;
+	}
+
+	public void setBranch_id(String branch_id) {
+		this.branchId = branch_id;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+
+	public boolean isEdited() {
+		return isEdited;
+	}
+
+	public void setEdited(boolean isEdited) {
+		this.isEdited = isEdited;
+	}
+
+	// Alias for snake_case compatibility
+	public boolean isIsedited() {
+		return isEdited;
+	}
+
+	public void setIsedited(boolean isedited) {
+		this.isEdited = isedited;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	// Alias for snake_case compatibility
+	public boolean isIsdeleted() {
+		return isDeleted;
+	}
+
+	public void setIsdeleted(boolean isdeleted) {
+		this.isDeleted = isdeleted;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	// Alias for snake_case compatibility
+	public LocalDateTime getCreated_at() {
+		return createdAt;
+	}
+
+	public void setCreated_at(LocalDateTime created_at) {
+		this.createdAt = created_at;
+	}
+
+	public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	// Alias for snake_case compatibility
+	public String getSupplier_id() {
+		return supplierId;
+	}
+
+	public void setSupplier_id(String supplier_id) {
+		this.supplierId = supplier_id;
+	}
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	public BigDecimal getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(BigDecimal totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	// Alias for snake_case compatibility
+	public BigDecimal getTotal_cost() {
+		return totalCost;
+	}
+
+	public void setTotal_cost(BigDecimal total_cost) {
+		this.totalCost = total_cost;
+	}
+}
+

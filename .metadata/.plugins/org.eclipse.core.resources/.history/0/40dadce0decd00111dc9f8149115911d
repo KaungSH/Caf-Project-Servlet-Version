@@ -1,0 +1,285 @@
+package cafe.project.servlet.repositories;
+
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import cafe.project.servlet.models.StockImports;
+import cafe.project.servlet.utils.MyConnection;
+
+public class StockImportDAO {
+	public static class SupplierOption {
+		private String supplierId;
+		private String name;
+
+		public SupplierOption(String supplierId, String name) {
+			this.supplierId = supplierId;
+			this.name = name;
+		}
+
+		public String getSupplierId() {
+			return supplierId;
+		}
+
+		public String getName() {
+			return name;
+		}
+	}
+
+	public static class BranchOption {
+		private String branchId;
+		private String name;
+
+		public BranchOption(String branchId, String name) {
+			this.branchId = branchId;
+			this.name = name;
+		}
+
+		public String getBranchId() {
+			return branchId;
+		}
+
+		public String getName() {
+			return name;
+		}
+	}
+
+	public static class EmployeeOption {
+		private String employeeId;
+		private String name;
+
+		public EmployeeOption(String employeeId, String name) {
+			this.employeeId = employeeId;
+			this.name = name;
+		}
+
+		public String getEmployeeId() {
+			return employeeId;
+		}
+
+		public String getName() {
+			return name;
+		}
+	}
+
+	private StockImports mapRow(ResultSet rs) throws SQLException {
+		StockImports item = new StockImports();
+
+		item.setImportId(rs.getString("import_id"));
+
+		Timestamp importedAt = rs.getTimestamp("imported_at");
+		if (importedAt != null) {
+			item.setImportedAt(importedAt.toLocalDateTime());
+		}
+
+		item.setEmployeeId(rs.getString("employee_id"));
+		item.setEmployeeName(rs.getString("employee_name"));
+
+		item.setBranchId(rs.getString("branch_id"));
+		item.setBranchName(rs.getString("branch_name"));
+
+		item.setEdited(rs.getInt("isedited") == 1);
+		item.setDeleted(rs.getInt("isdeleted") == 1);
+
+		Timestamp createdAt = rs.getTimestamp("created_at");
+		if (createdAt != null) {
+			item.setCreatedAt(createdAt.toLocalDateTime());
+		}
+
+		item.setSupplierId(rs.getString("supplier_id"));
+		item.setSupplierName(rs.getString("supplier_name"));
+
+		BigDecimal totalCost = rs.getBigDecimal("total_cost");
+		item.setTotalCost(totalCost != null ? totalCost : BigDecimal.ZERO);
+
+		return item;
+	}
+
+	public List<StockImports> getAllStockImports(boolean isDeleted) throws SQLException {
+		List<StockImports> list = new ArrayList<>();
+
+		String sql = "SELECT si.import_id, si.imported_at, si.employee_id, si.branch_id, "
+				+ "si.isedited, si.isdeleted, si.created_at, si.supplier_id, si.total_cost, "
+				+ "s.name AS supplier_name, "
+				+ "b.name AS branch_name, "
+				+ "e.name AS employee_name "
+				+ "FROM stock_imports si "
+				+ "LEFT JOIN suppliers s ON si.supplier_id = s.supplier_id "
+				+ "LEFT JOIN branches b ON si.branch_id = b.branch_id "
+				+ "LEFT JOIN employees e ON si.employee_id = e.employee_id "
+				+ "WHERE si.isdeleted = ? "
+				+ "ORDER BY si.imported_at DESC";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, isDeleted ? 1 : 0);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					list.add(mapRow(rs));
+				}
+			}
+		}
+
+		return list;
+	}
+
+	public StockImports getStockImportById(String id) throws SQLException {
+		String sql = "SELECT si.import_id, si.imported_at, si.employee_id, si.branch_id, "
+				+ "si.isedited, si.isdeleted, si.created_at, si.supplier_id, si.total_cost, "
+				+ "s.name AS supplier_name, "
+				+ "b.name AS branch_name, "
+				+ "e.name AS employee_name "
+				+ "FROM stock_imports si "
+				+ "LEFT JOIN suppliers s ON si.supplier_id = s.supplier_id "
+				+ "LEFT JOIN branches b ON si.branch_id = b.branch_id "
+				+ "LEFT JOIN employees e ON si.employee_id = e.employee_id "
+				+ "WHERE si.import_id = ?";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, id);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					return mapRow(rs);
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public boolean addStockImport(StockImports item) throws SQLException {
+		String sql = "INSERT INTO stock_imports "
+				+ "(import_id, imported_at, employee_id, branch_id, isedited, isdeleted, created_at, supplier_id, total_cost) "
+				+ "VALUES (?, ?, ?, ?, 0, 0, NOW(), ?, ?)";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			String importId = item.getImportId();
+			if (importId == null || importId.trim().isEmpty()) {
+				importId = UUID.randomUUID().toString();
+				item.setImportId(importId);
+			}
+
+			ps.setString(1, importId);
+			ps.setTimestamp(2, item.getImportedAt() != null ? Timestamp.valueOf(item.getImportedAt()) : new Timestamp(System.currentTimeMillis()));
+			ps.setString(3, item.getEmployeeId());
+			ps.setString(4, item.getBranchId());
+			ps.setString(5, item.getSupplierId());
+			ps.setBigDecimal(6, item.getTotalCost() != null ? item.getTotalCost() : BigDecimal.ZERO);
+
+			return ps.executeUpdate() > 0;
+		}
+	}
+
+	public boolean updateStockImport(StockImports item) throws SQLException {
+		String sql = "UPDATE stock_imports SET "
+				+ "imported_at = ?, employee_id = ?, branch_id = ?, supplier_id = ?, total_cost = ?, isedited = 1 "
+				+ "WHERE import_id = ? AND isdeleted = 0";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setTimestamp(1, item.getImportedAt() != null ? Timestamp.valueOf(item.getImportedAt()) : new Timestamp(System.currentTimeMillis()));
+			ps.setString(2, item.getEmployeeId());
+			ps.setString(3, item.getBranchId());
+			ps.setString(4, item.getSupplierId());
+			ps.setBigDecimal(5, item.getTotalCost() != null ? item.getTotalCost() : BigDecimal.ZERO);
+			ps.setString(6, item.getImportId());
+
+			return ps.executeUpdate() > 0;
+		}
+	}
+
+	public boolean deleteStockImport(String id) throws SQLException {
+		String sql = "UPDATE stock_imports SET isdeleted = 1 WHERE import_id = ? AND isdeleted = 0";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, id);
+			return ps.executeUpdate() > 0;
+		}
+	}
+
+	public boolean restoreStockImport(String id) throws SQLException {
+		String sql = "UPDATE stock_imports SET isdeleted = 0 WHERE import_id = ? AND isdeleted = 1";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, id);
+			return ps.executeUpdate() > 0;
+		}
+	}
+
+	public boolean permanentDeleteStockImport(String id) throws SQLException {
+		String sql = "DELETE FROM stock_imports WHERE import_id = ? AND isdeleted = 1";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, id);
+			return ps.executeUpdate() > 0;
+		}
+	}
+
+	public List<SupplierOption> getActiveSuppliers() throws SQLException {
+		List<SupplierOption> list = new ArrayList<>();
+		String sql = "SELECT supplier_id, name FROM suppliers WHERE isdeleted = 0 ORDER BY name ASC";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				list.add(new SupplierOption(rs.getString("supplier_id"), rs.getString("name")));
+			}
+		}
+
+		return list;
+	}
+
+	public List<BranchOption> getActiveBranches() throws SQLException {
+		List<BranchOption> list = new ArrayList<>();
+		String sql = "SELECT branch_id, name FROM branches WHERE branch_id <> 'deleted' ORDER BY name ASC";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				list.add(new BranchOption(rs.getString("branch_id"), rs.getString("name")));
+			}
+		}
+
+		return list;
+	}
+
+	public List<EmployeeOption> getActiveEmployees() throws SQLException {
+		List<EmployeeOption> list = new ArrayList<>();
+		String sql = "SELECT employee_id, name FROM employees WHERE employee_id <> 'deleted' ORDER BY name ASC";
+
+		try (Connection con = MyConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				list.add(new EmployeeOption(rs.getString("employee_id"), rs.getString("name")));
+			}
+		}
+
+		return list;
+	}
+}

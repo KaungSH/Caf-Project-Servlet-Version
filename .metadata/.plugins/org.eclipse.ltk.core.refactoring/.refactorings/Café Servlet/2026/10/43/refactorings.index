@@ -19,3 +19,6 @@
 1792617641634	Rename local variable 'productType'
 1792618518407	Move compilation unit
 1792624302111	Rename resource 'product'
+1792647235352	Delete element
+1792647460626	Rename compilation unit 'StockImport.java'
+1792649180633	Rename type 'StockImportRepository'

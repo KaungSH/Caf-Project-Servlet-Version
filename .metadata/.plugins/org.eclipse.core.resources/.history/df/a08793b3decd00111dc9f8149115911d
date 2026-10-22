@@ -1,0 +1,426 @@
+package cafe.project.servlet.servlets;
+
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+
+import cafe.project.servlet.models.StockImports;
+import cafe.project.servlet.repositories.StockImportRepository;
+import cafe.project.servlet.repositories.StockImportRepository.BranchOption;
+import cafe.project.servlet.repositories.StockImportRepository.EmployeeOption;
+import cafe.project.servlet.repositories.StockImportRepository.SupplierOption;
+
+
+
+@WebServlet({"/stockimport", "/stockImport", "/stock-imports", "/stockImports"})
+public class StockImportServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	private StockImportRepository stockImportDAO;
+
+	@Override
+	public void init() {
+		StockImportRepository repo = new StockImportRepository();
+	}
+
+	private void loadFormOptions(HttpServletRequest request) throws SQLException {
+		List<SupplierOption> suppliers = stockImportDAO.getActiveSuppliers();
+		List<BranchOption> branches = stockImportDAO.getActiveBranches();
+		List<EmployeeOption> employees = stockImportDAO.getActiveEmployees();
+
+		request.setAttribute("suppliers", suppliers);
+		request.setAttribute("branches", branches);
+		request.setAttribute("employees", employees);
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setCharacterEncoding("UTF-8");
+		String action = request.getParameter("action");
+
+		try {
+			// LIST ACTIVE STOCK IMPORTS
+			if (action == null || action.trim().isEmpty() || "list".equals(action)) {
+
+				List<StockImports> stockImports = stockImportDAO.getAllStockImports(false);
+				request.setAttribute("stockImports", stockImports);
+				request.getRequestDispatcher("/stockImports/list.jsp").forward(request, response);
+
+			// VIEW DELETED LIST
+			} else if ("deleted".equals(action)) {
+
+				List<StockImports> stockImports = stockImportDAO.getAllStockImports(true);
+				request.setAttribute("stockImports", stockImports);
+				request.getRequestDispatcher("/stockImports/deleted.jsp").forward(request, response);
+
+			// SHOW ADD FORM
+			} else if ("add".equals(action)) {
+
+				loadFormOptions(request);
+				String defaultNow = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+				request.setAttribute("importedAtValue", defaultNow);
+				request.getRequestDispatcher("/stockImports/add.jsp").forward(request, response);
+
+			// SHOW EDIT FORM
+			} else if ("edit".equals(action)) {
+
+				String id = request.getParameter("id");
+				if (id == null) {
+					id = request.getParameter("import_id");
+				}
+
+				if (id == null || id.trim().isEmpty()) {
+					response.sendRedirect(request.getContextPath() + "/stockimport");
+					return;
+				}
+
+				StockImports stockImport = stockImportDAO.getStockImportById(id.trim());
+				if (stockImport == null || stockImport.isDeleted()) {
+					response.sendRedirect(request.getContextPath() + "/stockimport");
+					return;
+				}
+
+				loadFormOptions(request);
+				request.setAttribute("stockImport", stockImport);
+				request.getRequestDispatcher("/stockImports/edit.jsp").forward(request, response);
+
+			// SOFT DELETE VIA GET
+			} else if ("delete".equals(action)) {
+
+				String id = request.getParameter("id");
+				if (id == null) {
+					id = request.getParameter("import_id");
+				}
+
+				if (id != null && !id.trim().isEmpty()) {
+					stockImportDAO.deleteStockImport(id.trim());
+				}
+				response.sendRedirect(request.getContextPath() + "/stockimport?message=deleted");
+
+			// RESTORE VIA GET
+			} else if ("restore".equals(action)) {
+
+				String id = request.getParameter("id");
+				if (id == null) {
+					id = request.getParameter("import_id");
+				}
+
+				if (id != null && !id.trim().isEmpty()) {
+					stockImportDAO.restoreStockImport(id.trim());
+				}
+				response.sendRedirect(request.getContextPath() + "/stockimport?action=deleted&message=restored");
+
+			// PERMANENT DELETE VIA GET
+			} else if ("permanentDelete".equals(action)) {
+
+				String id = request.getParameter("id");
+				if (id == null) {
+					id = request.getParameter("import_id");
+				}
+
+				if (id != null && !id.trim().isEmpty()) {
+					try {
+						stockImportDAO.permanentDeleteStockImport(id.trim());
+						response.sendRedirect(request.getContextPath() + "/stockimport?action=deleted&message=permanentDeleted");
+					} catch (SQLException e) {
+						response.sendRedirect(request.getContextPath() + "/stockimport?action=deleted&message=fk_error");
+					}
+					return;
+				}
+				response.sendRedirect(request.getContextPath() + "/stockimport?action=deleted");
+
+			} else {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid stock import action.");
+			}
+
+		} catch (SQLException e) {
+			throw new ServletException("Unable to process stock import request.", e);
+		}
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setCharacterEncoding("UTF-8");
+		String action = request.getParameter("action");
+
+		try {
+			// ==================== INSERT ====================
+			if ("insert".equals(action)) {
+
+				String supplierId = request.getParameter("supplier_id");
+				String branchId = request.getParameter("branch_id");
+				String employeeId = request.getParameter("employee_id");
+				String importedAtStr = request.getParameter("imported_at");
+				String totalCostStr = request.getParameter("total_cost");
+
+				boolean hasError = false;
+
+				if (supplierId == null || supplierId.trim().isEmpty()) {
+					request.setAttribute("supplierError", "Please select a supplier.");
+					hasError = true;
+				}
+
+				if (branchId == null || branchId.trim().isEmpty()) {
+					request.setAttribute("branchError", "Please select a branch.");
+					hasError = true;
+				}
+
+				if (employeeId == null || employeeId.trim().isEmpty()) {
+					request.setAttribute("employeeError", "Please select an employee.");
+					hasError = true;
+				}
+
+				LocalDateTime importedAt = null;
+				if (importedAtStr == null || importedAtStr.trim().isEmpty()) {
+					request.setAttribute("importedAtError", "Import date and time is required.");
+					hasError = true;
+				} else {
+					try {
+						importedAt = parseDateTime(importedAtStr.trim());
+					} catch (DateTimeParseException e) {
+						request.setAttribute("importedAtError", "Invalid date and time format.");
+						hasError = true;
+					}
+				}
+
+				// Total Cost Validation
+				BigDecimal totalCost = null;
+				if (totalCostStr == null || totalCostStr.trim().isEmpty()) {
+					request.setAttribute("totalCostError", "Total Cost is required.");
+					hasError = true;
+				} else {
+					try {
+						totalCost = new BigDecimal(totalCostStr.trim());
+						if (totalCost.compareTo(BigDecimal.ZERO) <= 0) {
+							request.setAttribute("totalCostError", "Total Cost must be greater than 0.");
+							hasError = true;
+						} else if (totalCost.scale() > 2) {
+							request.setAttribute("totalCostError", "Total Cost cannot have more than 2 decimal places.");
+							hasError = true;
+						} else if (totalCost.compareTo(new BigDecimal("99999999.99")) > 0) {
+							request.setAttribute("totalCostError", "Total Cost cannot exceed 99,999,999.99.");
+							hasError = true;
+						}
+					} catch (NumberFormatException e) {
+						request.setAttribute("totalCostError", "Total Cost must be a valid numeric amount (e.g., 1500.00).");
+						hasError = true;
+					}
+				}
+
+				if (hasError) {
+					loadFormOptions(request);
+					request.setAttribute("supplierIdValue", supplierId);
+					request.setAttribute("branchIdValue", branchId);
+					request.setAttribute("employeeIdValue", employeeId);
+					request.setAttribute("importedAtValue", importedAtStr);
+					request.setAttribute("totalCostValue", totalCostStr);
+
+					request.getRequestDispatcher("/stockImports/add.jsp").forward(request, response);
+					return;
+				}
+
+				StockImports newItem = new StockImports();
+				newItem.setSupplierId(supplierId.trim());
+				newItem.setBranchId(branchId.trim());
+				newItem.setEmployeeId(employeeId.trim());
+				newItem.setImportedAt(importedAt);
+				newItem.setTotalCost(totalCost);
+
+				boolean success = stockImportDAO.addStockImport(newItem);
+				if (success) {
+					response.sendRedirect(request.getContextPath() + "/stockimport?message=added");
+				} else {
+					throw new ServletException("Failed to add stock import record.");
+				}
+
+			// ==================== UPDATE ====================
+			} else if ("update".equals(action)) {
+
+				String id = request.getParameter("import_id");
+				if (id == null) {
+					id = request.getParameter("id");
+				}
+
+				if (id == null || id.trim().isEmpty()) {
+					response.sendRedirect(request.getContextPath() + "/stockimport");
+					return;
+				}
+				id = id.trim();
+
+				String supplierId = request.getParameter("supplier_id");
+				String branchId = request.getParameter("branch_id");
+				String employeeId = request.getParameter("employee_id");
+				String importedAtStr = request.getParameter("imported_at");
+				String totalCostStr = request.getParameter("total_cost");
+
+				boolean hasError = false;
+
+				if (supplierId == null || supplierId.trim().isEmpty()) {
+					request.setAttribute("supplierError", "Please select a supplier.");
+					hasError = true;
+				}
+
+				if (branchId == null || branchId.trim().isEmpty()) {
+					request.setAttribute("branchError", "Please select a branch.");
+					hasError = true;
+				}
+
+				if (employeeId == null || employeeId.trim().isEmpty()) {
+					request.setAttribute("employeeError", "Please select an employee.");
+					hasError = true;
+				}
+
+				LocalDateTime importedAt = null;
+				if (importedAtStr == null || importedAtStr.trim().isEmpty()) {
+					request.setAttribute("importedAtError", "Import date and time is required.");
+					hasError = true;
+				} else {
+					try {
+						importedAt = parseDateTime(importedAtStr.trim());
+					} catch (DateTimeParseException e) {
+						request.setAttribute("importedAtError", "Invalid date and time format.");
+						hasError = true;
+					}
+				}
+
+				// Total Cost Validation
+				BigDecimal totalCost = null;
+				if (totalCostStr == null || totalCostStr.trim().isEmpty()) {
+					request.setAttribute("totalCostError", "Total Cost is required.");
+					hasError = true;
+				} else {
+					try {
+						totalCost = new BigDecimal(totalCostStr.trim());
+						if (totalCost.compareTo(BigDecimal.ZERO) <= 0) {
+							request.setAttribute("totalCostError", "Total Cost must be greater than 0.");
+							hasError = true;
+						} else if (totalCost.scale() > 2) {
+							request.setAttribute("totalCostError", "Total Cost cannot have more than 2 decimal places.");
+							hasError = true;
+						} else if (totalCost.compareTo(new BigDecimal("99999999.99")) > 0) {
+							request.setAttribute("totalCostError", "Total Cost cannot exceed 99,999,999.99.");
+							hasError = true;
+						}
+					} catch (NumberFormatException e) {
+						request.setAttribute("totalCostError", "Total Cost must be a valid numeric amount (e.g., 1500.00).");
+						hasError = true;
+					}
+				}
+
+				if (hasError) {
+					loadFormOptions(request);
+					StockImports existing = stockImportDAO.getStockImportById(id);
+					request.setAttribute("stockImport", existing);
+
+					request.setAttribute("supplierIdValue", supplierId);
+					request.setAttribute("branchIdValue", branchId);
+					request.setAttribute("employeeIdValue", employeeId);
+					request.setAttribute("importedAtValue", importedAtStr);
+					request.setAttribute("totalCostValue", totalCostStr);
+
+					request.getRequestDispatcher("/stockImports/edit.jsp").forward(request, response);
+					return;
+				}
+
+				StockImports updateItem = new StockImports();
+				updateItem.setImportId(id);
+				updateItem.setSupplierId(supplierId.trim());
+				updateItem.setBranchId(branchId.trim());
+				updateItem.setEmployeeId(employeeId.trim());
+				updateItem.setImportedAt(importedAt);
+				updateItem.setTotalCost(totalCost);
+
+				boolean success = stockImportDAO.updateStockImport(updateItem);
+				if (success) {
+					response.sendRedirect(request.getContextPath() + "/stockimport?message=updated");
+				} else {
+					request.setAttribute("error", "Unable to update stock import.");
+					loadFormOptions(request);
+					request.setAttribute("stockImport", stockImportDAO.getStockImportById(id));
+					request.getRequestDispatcher("/stockImports/edit.jsp").forward(request, response);
+				}
+
+			// ==================== DELETE ====================
+			} else if ("delete".equals(action)) {
+
+				String id = request.getParameter("import_id");
+				if (id == null) {
+					id = request.getParameter("id");
+				}
+
+				if (id != null && !id.trim().isEmpty()) {
+					stockImportDAO.deleteStockImport(id.trim());
+				}
+				response.sendRedirect(request.getContextPath() + "/stockimport?message=deleted");
+
+			// ==================== RESTORE ====================
+			} else if ("restore".equals(action)) {
+
+				String id = request.getParameter("import_id");
+				if (id == null) {
+					id = request.getParameter("id");
+				}
+
+				if (id != null && !id.trim().isEmpty()) {
+					stockImportDAO.restoreStockImport(id.trim());
+				}
+				response.sendRedirect(request.getContextPath() + "/stockimport?action=deleted&message=restored");
+
+			// ==================== PERMANENT DELETE ====================
+			} else if ("permanentDelete".equals(action)) {
+
+				String id = request.getParameter("import_id");
+				if (id == null) {
+					id = request.getParameter("id");
+				}
+
+				if (id != null && !id.trim().isEmpty()) {
+					try {
+						stockImportDAO.permanentDeleteStockImport(id.trim());
+						response.sendRedirect(request.getContextPath() + "/stockimport?action=deleted&message=permanentDeleted");
+					} catch (SQLException e) {
+						response.sendRedirect(request.getContextPath() + "/stockimport?action=deleted&message=fk_error");
+					}
+					return;
+				}
+				response.sendRedirect(request.getContextPath() + "/stockimport?action=deleted");
+
+			} else {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid stock import action.");
+			}
+
+		} catch (SQLException e) {
+			throw new ServletException("Unable to save stock import record.", e);
+		}
+	}
+
+	private LocalDateTime parseDateTime(String input) {
+		if (input == null || input.isEmpty()) {
+			return null;
+		}
+		if (input.length() == 16) {
+			return LocalDateTime.parse(input, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+		} else if (input.length() == 19 && input.contains("T")) {
+			return LocalDateTime.parse(input, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+		} else if (input.length() == 19 && input.contains(" ")) {
+			return LocalDateTime.parse(input, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		}
+		return LocalDateTime.parse(input);
+	}
+}

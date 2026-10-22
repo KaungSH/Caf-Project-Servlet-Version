@@ -196,3 +196,13 @@
 2026-10-21 19:10:06.540: [INFO] BookmarksLoadDropped droppedNodes=0
 2026-10-21 19:10:06.540: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
 2026-10-21 23:18:54.621: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-22 05:21:17.625: [INFO] CurrentProfilePath: C:\Luft Cafe\Luft\Cafe-Project-Servlet\Caf-Project-Servlet-Version\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-10-22 05:21:17.625: [INFO] Profiles total count: 1
+2026-10-22 05:21:17.625: [INFO] Profile: name=Profile 1 path=C:\Luft Cafe\Luft\Cafe-Project-Servlet\Caf-Project-Servlet-Version\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-10-20T20:47:32.844Z
+2026-10-22 05:21:17.625: [INFO] LastUsedProfileDir: C:\Luft Cafe\Luft\Cafe-Project-Servlet\Caf-Project-Servlet-Version\.metadata\.plugins\org.eclipse.swt\EBWebView\Default
+2026-10-22 05:21:17.625: [INFO] MostRecentlyActiveProfile: name=Profile 1 path=C:\Luft Cafe\Luft\Cafe-Project-Servlet\Caf-Project-Servlet-Version\.metadata\.plugins\org.eclipse.swt\EBWebView\Default lastActive=2026-10-20T20:47:32.844Z
+2026-10-22 05:21:17.625: [INFO] OnDoneLoading sync enabled: 0
+2026-10-22 05:21:17.625: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-22 05:21:17.625: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-22 05:21:17.625: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-22 06:06:27.769: [INFO] BookmarksSnapshot Shutdown total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
