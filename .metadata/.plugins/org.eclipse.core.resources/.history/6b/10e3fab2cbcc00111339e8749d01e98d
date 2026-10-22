@@ -1,0 +1,119 @@
+package cafe.project.servlet.repositories;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import cafe.project.servlet.repositories.entities.DeleteRecord;
+import cafe.project.servlet.repositories.mappers.DeleteRecordMapper;
+import cafe.project.servlet.repositories.mappers.resultsetextractors.DeleteRecordResultSetExtractor;
+import cafe.project.servlet.servlets.MyConnection;
+
+public class DeleteRecordRepository {
+	
+	Connection con = MyConnection.getConnection();
+	private DeleteRecordMapper deleteRecordMapper = new DeleteRecordMapper();
+	private DeleteRecordResultSetExtractor deleteRecordResultSetExtractor = new DeleteRecordResultSetExtractor();
+	
+	public List<DeleteRecord> getByParentId(String parent_id) {
+		List<DeleteRecord> deleteRecords = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM delete_record WHERE parent_id = ?");
+			ps.setString(1, parent_id);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				deleteRecords.add(deleteRecordMapper.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All DeleteRecors by Parent Id Failed - " + e);
+		}
+		return deleteRecords;
+	}
+	
+	public List<DeleteRecord> getByChildId(String child_id) {
+		List<DeleteRecord> deleteRecords = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM delete_record WHERE child_id = ?");
+			ps.setString(1, child_id);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				deleteRecords.add(deleteRecordMapper.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All DeleteRecors by Child Id Failed - " + e);
+		}
+		return deleteRecords;
+	}
+	
+	public int recordDelete(DeleteRecord dr) {
+		int r = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement("INSERT INTO delete_record (parent_id, parent_table_name, child_id, child_table_name) VALUES(?, ?, ?, ?)");
+			
+			ps.setString(1, dr.getParent_id());
+			ps.setString(2, dr.getParent_table_name());
+			ps.setString(3, dr.getChild_id());
+			ps.setString(4, dr.getChild_table_name());
+			
+			r = ps.executeUpdate();
+			System.out.println(r + " row(s) effected in recording Delete.");
+		}catch(SQLException e) {
+			System.out.println("Recording Delete Failed - " + e);
+		}
+		return r;
+	}
+	
+	public int deleteByParentId(String parent_id) {
+		int rowsAffected = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement("DELETE FROM delete_record WHERE parent_id = ?");
+			
+			ps.setString(1, parent_id);
+			
+			rowsAffected += ps.executeUpdate();
+			System.out.println(rowsAffected + " row(s) effected in deleting DeleteRecords.");
+		}catch(SQLException e) {
+			System.out.println("Deleting DeleteRecord by Parent Id Failed - " + e);
+		}
+		return rowsAffected;
+	}
+	
+	public int deleteByChildId(String child_id) {
+		int rowsAffected = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement("DELETE FROM delete_record WHERE child_id = ?");
+			
+			ps.setString(1, child_id);
+			
+			rowsAffected += ps.executeUpdate();
+			System.out.println(rowsAffected + " row(s) effected in deleting DeleteRecords.");
+		}catch(SQLException e) {
+			System.out.println("Deleting DeleteRecord by Child Id Failed - " + e);
+		}
+		return rowsAffected;
+	}
+	
+	public List<DeleteRecord> getChildIds(String parent_id, String parent_id_name, String child_table_name, String child_id_name) {
+		String sql = "SELECT " + parent_id_name + " parent_id, " + child_id_name + " child_id FROM " + child_table_name + " WHERE " + parent_id_name + " = ?";
+		List<DeleteRecord> deleteRecords = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, parent_id);
+			ResultSet rs = ps.executeQuery();
+			deleteRecords = deleteRecordResultSetExtractor.extractData(rs);
+			
+		}catch(SQLException e) {
+			System.out.println("Get All Child Ids by Parent Id Failed - " + e);
+		}
+		return deleteRecords;
+	}
+
+}

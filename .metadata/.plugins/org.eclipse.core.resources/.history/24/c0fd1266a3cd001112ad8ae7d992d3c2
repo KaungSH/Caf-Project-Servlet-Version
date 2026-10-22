@@ -1,0 +1,5 @@
+package cafe.project.servlet.utils;
+
+public class RandomString {
+
+}

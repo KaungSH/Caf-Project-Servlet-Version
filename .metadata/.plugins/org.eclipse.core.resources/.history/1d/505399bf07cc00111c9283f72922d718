@@ -1,0 +1,5 @@
+package cafe.project.servlet.repositories.mappers.resultsetextractors;
+
+public class ProductResultSetExtractor4 {
+
+}

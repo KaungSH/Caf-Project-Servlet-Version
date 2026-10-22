@@ -1,0 +1,28 @@
+package cafe.project.servlet.repositories.mappers;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import cafe.project.servlet.repositories.entities.Category;
+
+public class CategoryMapper {
+
+	public Category mapRow(ResultSet rs) throws SQLException {
+
+		Category category = new Category();
+
+		category.setCategory_id(rs.getString("category_id"));
+		category.setName(rs.getString("name"));
+		category.setDescription(rs.getString("description"));
+		category.setIs_active(rs.getBoolean("is_active"));
+		category.setIsedited(rs.getBoolean("isedited"));
+		category.setIsdeleted(rs.getBoolean("isdeleted"));
+
+		category.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+
+		category.setEmployee_id(rs.getString("employee_id"));
+		category.setBranch_id(rs.getString("branches_branch_id"));
+
+		return category;
+	}
+}

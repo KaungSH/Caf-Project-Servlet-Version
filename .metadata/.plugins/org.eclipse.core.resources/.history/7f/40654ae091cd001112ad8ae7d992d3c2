@@ -1,0 +1,241 @@
+package cafe.project.servlet.services;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import cafe.project.servlet.models.ProductTypeEntryModel;
+import cafe.project.servlet.models.ProductTypeListModel;
+import cafe.project.servlet.repositories.CategoryRepository;
+import cafe.project.servlet.repositories.EmployeeRepository;
+import cafe.project.servlet.repositories.ProductTypeRepository;
+import cafe.project.servlet.repositories.entities.ProductType;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class ProductTypeService {
+
+	private ProductTypeRepository pt = new ProductTypeRepository();
+	private CategoryRepository cr = new CategoryRepository();
+	private EmployeeRepository er = new EmployeeRepository();
+	private ProductService ps = new ProductService();
+	private BranchService bs = new BranchService();
+
+	public List<ProductTypeListModel> findAll(String branch_id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<ProductTypeListModel> list = new ArrayList<>();
+
+		for (ProductType item : pt.findAll(branch_id)) {
+			String categoryName = cr.findById(item.getCategory_id()).getName();
+			String employeeName = er.findByIdAdmin(item.getEmployee_id()).getName();
+
+			list.add(toListModel2(item, categoryName, employeeName, bs.findById(item.getBranch_id(), request, response).getName()));
+		}
+
+		return list;
+	}
+	
+	public List<ProductTypeListModel> findAllAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<ProductTypeListModel> list = new ArrayList<>();
+
+		for (ProductType item : pt.findAllAdmin()) {
+			String categoryName = cr.findById(item.getCategory_id()).getName();
+			String employeeName = er.findByIdAdmin(item.getEmployee_id()).getName();
+
+			list.add(toListModel2(item, categoryName, employeeName, bs.findById(item.getBranch_id(), request, response).getName()));
+		}
+
+		return list;
+	}
+
+	public List<ProductTypeListModel> searchByName(String keyword, String branch_id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		List<ProductTypeListModel> list = new ArrayList<>();
+
+		for (ProductType item : pt.searchByName(keyword, branch_id)) {
+			String categoryName = cr.findById(item.getCategory_id()).getName();
+			String employeeName = er.findByIdAdmin(item.getEmployee_id()).getName();
+
+			list.add(toListModel2(item, categoryName, employeeName, bs.findById(item.getBranch_id(), request, response).getName()));
+		}
+
+		return list;
+	}
+	
+	public List<ProductTypeListModel> searchByNameAdmin(String keyword, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		List<ProductTypeListModel> list = new ArrayList<>();
+
+		for (ProductType item : pt.searchByNameAdmin(keyword)) {
+			String categoryName = cr.findById(item.getCategory_id()).getName();
+			String employeeName = er.findByIdAdmin(item.getEmployee_id()).getName();
+
+			list.add(toListModel2(item, categoryName, employeeName, bs.findById(item.getBranch_id(), request, response).getName()));
+		}
+
+		return list;
+	}
+
+	public List<ProductTypeListModel> searchDeletedByName(String keyword, String branch_id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		List<ProductTypeListModel> list = new ArrayList<>();
+
+		for (ProductType item : pt.searchDeletedByName(keyword, branch_id)) {
+			String categoryName = cr.findById(item.getCategory_id()).getName();
+			String employeeName = er.findByIdAdmin(item.getEmployee_id()).getName();
+
+			list.add(toListModel3(item, categoryName, employeeName, bs.findById(item.getBranch_id(), request, response).getName()));
+		}
+
+		return list;
+	}
+
+	public List<ProductTypeListModel> findDeletedAll(String branch_id) {
+		List<ProductTypeListModel> list = new ArrayList<>();
+
+		for (ProductType item : pt.findDeletedAll(branch_id)) {
+			String categoryName = cr.findById(item.getCategory_id()).getName();
+			String employeeName = er.findByIdAdmin(item.getEmployee_id()).getName();
+
+			list.add(toListModel3(item, categoryName, employeeName, bs.findById(item.getBranch_id()).getName()));
+		}
+
+		return list;
+	}
+
+	public ProductTypeEntryModel findById(String id) {
+		try {
+			ProductType entity = pt.findById(id);
+
+			if (entity == null) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product type not found");
+			}
+
+			return toEntryModel(entity);
+
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product type not found");
+		}
+	}
+
+	public ProductTypeEntryModel findById3(String id) {
+		ProductType entity = pt.findById2(id);
+
+		if (entity == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product type not found");
+		}
+
+		return toEntryModel(entity);
+	}
+
+	public ProductTypeEntryModel findById2(String id) {
+		ProductType entity = pt.findById2(id);
+
+		if (entity == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product type not found");
+		}
+
+		return toEntryModel2(entity);
+	}
+
+	public ProductTypeListModel findDetailById(String id) {
+		ProductType entity = pt.findById(id);
+		if (entity == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product Type");
+		}
+		return toListModel(entity, cr.findById(entity.getCategory_id()).getName(),
+				er.findByIdAdmin(entity.getEmployee_id()).getName(), bs.findById(entity.getBranch_id()).getName());
+	}
+
+	public ProductTypeListModel findDeletedById(String id) {
+		ProductType entity = pt.findDeletedById(id);
+		if (entity == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product Type");
+		}
+		return toListModel(entity, cr.findById(entity.getCategory_id()).getName(),
+				er.findByIdAdmin(entity.getEmployee_id()).getName(), bs.findById(entity.getBranch_id()).getName());
+	}
+
+	public int add(ProductTypeEntryModel pe) {
+		return pt.add(toEntity1(pe));
+	}
+
+	public int edit(ProductTypeEntryModel pe) {
+		ProductType entity = pt.findById(pe.getType_id());
+		if (entity == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product Type");
+		}
+		return pt.edit(toEntity1(pe));
+	}
+
+	public int delete(String id) {
+		ProductType entity = pt.findById(id);
+		if (entity == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product Type");
+		}
+		return pt.deleted(id);
+	}
+
+	public int deletePerm(String id) {
+		ProductType entity = pt.findDeletedById(id);
+		if (entity == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product Type");
+		}
+		return pt.deletedPerm(id);
+	}
+
+	public int recover(String id) {
+		ProductType entity = pt.findDeletedById(id);
+		if (entity == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product Type");
+		}
+		return pt.recover(id);
+	}
+
+	private ProductTypeListModel toListModel(ProductType pt, String category_name, String employee_name, String branch_name) {
+		return new ProductTypeListModel(pt.getType_id(), pt.getName(), pt.getDescription(), pt.getCoverimgpath(),
+				pt.getPrice(), pt.getCreated_at(), pt.isIsdeleted(), pt.isIsedited(), category_name, employee_name, branch_name );
+	}
+
+	private ProductTypeListModel toListModel2(ProductType pt, String category_name, String employee_name, String branch_name) {
+
+		return new ProductTypeListModel(pt.getType_id(), pt.getName(), pt.getDescription(), pt.getCoverimgpath(),
+				pt.getPrice(), pt.getCreated_at(), pt.isIsdeleted(), pt.isIsedited(), category_name, employee_name,
+				ps.findListAllByTypeId(pt.getType_id()), branch_name);
+	}
+
+	private ProductTypeListModel toListModel3(ProductType pt, String category_name, String employee_name, String branch_name) {
+		return new ProductTypeListModel(pt.getType_id(), pt.getName(), pt.getDescription(), pt.getCoverimgpath(),
+				pt.getPrice(), pt.getCreated_at(), pt.isIsdeleted(), pt.isIsedited(), category_name, employee_name,
+				ps.findListAllByTypeId2(pt.getType_id()), branch_name);
+	}
+
+	private ProductTypeEntryModel toEntryModel(ProductType pt) {
+		return new ProductTypeEntryModel(pt.getType_id(), pt.getName(), pt.getDescription(), pt.getCoverimgpath(),
+				pt.getPrice(), pt.getCategory_id(), pt.getEmployee_id(), pt.getBranch_id());
+	}
+
+	private ProductTypeEntryModel toEntryModel2(ProductType pt) {
+		return new ProductTypeEntryModel(pt.getType_id(), pt.getName(), pt.getDescription(), pt.getCoverimgpath(),
+				pt.getPrice(), pt.getCategory_id(), pt.getEmployee_id(), getCoverImageFileName(pt.getCoverimgpath()),
+				ps.findByTypeId(pt.getType_id()), pt.getBranch_id());
+	}
+
+//	private ProductType toEntity(ProductTypeEntryModel pe) {
+//		return new ProductType(pe.getType_id(), pe.getName(), pe.getDescription(), pe.getCoverimgpath(), pe.getPrice(), pe.getCategory_id(), pe.getEmployee_id());
+//	}
+
+	private ProductType toEntity1(ProductTypeEntryModel pe) {
+		return new ProductType(pe.getType_id(), pe.getName(), pe.getDescription(), pe.getCoverimgpath(), pe.getPrice(),
+				pe.getCategory_id(), pe.getEmployee_id(), pe.getProduct(), pe.getBranch_id());
+	}
+
+	private String getCoverImageFileName(String cover_img_path) {
+		// Extracts just the file name from the full path string
+		if(cover_img_path == null) {
+			return null;
+		}
+		return java.nio.file.Paths.get(cover_img_path).getFileName().toString();
+	}
+
+}

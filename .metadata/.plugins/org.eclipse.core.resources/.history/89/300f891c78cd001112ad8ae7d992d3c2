@@ -1,0 +1,5 @@
+package cafe.project.servlet.repositories.entities;
+
+public class BranchStatus {
+
+}

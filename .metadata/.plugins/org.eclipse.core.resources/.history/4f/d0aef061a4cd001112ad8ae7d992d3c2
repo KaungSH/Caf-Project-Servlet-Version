@@ -1,0 +1,32 @@
+package cafe.project.servlet.servlets.products;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+
+import cafe.project.servlet.models.LoginDto;
+import cafe.project.servlet.models.SearchKeyword;
+import cafe.project.servlet.services.ProductTypeService;
+
+@WebServlet("/products/search")
+public class ProductSearchServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	private ProductTypeService ptservice = new ProductTypeService();
+   
+    public ProductSearchServlet() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LoginDto ldto = (LoginDto) request.getSession().getAttribute("loggedInUser");
+		request.setAttribute("keywordmodel", new SearchKeyword());
+		request.setAttribute("product_types", ptservice.findAll(ldto.getBranch_id(), request, response));
+		request.getRequestDispatcher("product/list.jsp").forward(request, response);
+	}
+
+}

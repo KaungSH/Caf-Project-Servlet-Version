@@ -1,0 +1,52 @@
+package cafe.project.servlet.servlets;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import cafe.project.servlet.models.LoginDto;
+import cafe.project.servlet.services.BranchService;
+import cafe.project.servlet.services.LoginService;
+
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	private LoginService loginService = new LoginService();
+	private BranchService branchService = new BranchService();
+
+    public LoginServlet() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("user", new LoginDto());
+		request.setAttribute("branches", branchService.findAll());
+		request.getRequestDispatcher("login.jsp").forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String branchId = request.getParameter("branch_id");
+		
+		LoginDto ldto = new LoginDto();
+		ldto.setEmployee_name(username);
+		ldto.setPassword(password);
+		ldto.setBranch_id(branchId);
+		
+		LoginDto ldto2 = loginService.findByLogin(ldto);
+		
+		if (ldto2 == null) {
+			request.setAttribute("error", "Invalid credentials. Please verify your email and password and try again.");
+			request.setAttribute("branches", branchService.findAll());
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
+		
+		
+	}
+
+}

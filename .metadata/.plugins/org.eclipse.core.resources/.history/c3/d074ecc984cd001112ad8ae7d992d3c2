@@ -1,0 +1,161 @@
+package cafe.project.servlet.repositories;
+
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import cafe.project.servlet.repositories.entities.Branch;
+import cafe.project.servlet.repositories.entities.Category;
+import cafe.project.servlet.repositories.entities.Product;
+import cafe.project.servlet.repositories.mappers.BranchMapper;
+import cafe.project.servlet.repositories.mappers.BranchMapper2;
+import cafe.project.servlet.servlets.MyConnection;
+
+public class BranchRepository {
+
+	Connection con = MyConnection.getConnection();
+	private BranchMapper branchMapper = new BranchMapper();
+	private BranchMapper2 branchMapper2 = new BranchMapper2();
+
+	public List<Branch> findAll() {
+		String sql = "SELECT * FROM branches WHERE branch_id != 'deleted'";
+		List<Branch> branches = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				branches.add(branchMapper.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All Branches Failed - " + e);
+		}
+		return branches;
+	}
+
+	public List<Branch> findAllWithRelation() {
+		String sql = "SELECT b.*, s.name AS status_name FROM branches b INNER JOIN branch_statuses s ON b.branch_status_id = s.branch_status_id WHERE branch_id != 'deleted'";
+		List<Branch> branches = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				branches.add(branchMapper2.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All Branches with Relations Failed - " + e);
+		}
+		return branches;
+	}
+
+	public Branch findById(String branch_id) {
+		String sql = "SELECT * FROM branches WHERE branch_id = ? AND branch_id != 'deleted'";
+		Branch branch = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, branch_id);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				branch = branchMapper.mapRow(rs);
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get Branch by Id Failed - " + e);
+		}
+		return branch;
+	}
+	
+	public Branch findByLocation(String location) {
+		String sql = "SELECT * FROM branches WHERE location = ? AND branch_id != 'deleted'";
+		Branch branch = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, location);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				branch = branchMapper.mapRow(rs);
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get Branch by Loction Failed - " + e);
+		}
+		return branch;
+	}
+
+	public Branch findByIdWithRelation(String branch_id) {
+		String sql = "SELECT b.*, s.name AS status_name FROM branches b INNER JOIN branch_statuses s ON b.branch_status_id = s.branch_status_id WHERE b.branch_id = ? AND branch_id != 'deleted'";
+		Branch branch = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, branch_id);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				branch = branchMapper2.mapRow(rs);
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get Branch by Id Failed - " + e);
+		}
+		return branch;
+	}
+	
+	public int changeStatus(String branch_id, String status_id) {
+		int rows = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement("UPDATE branches SET branch_status_id = ? WHERE branch_id = ?");
+			
+			ps.setString(1, status_id);
+			ps.setString(2, branch_id);
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) effected in changing Branch Status.");
+		}catch(SQLException e) {
+			System.out.println("Changing Branch Status Failed - " + e);
+		}
+		return rows;
+	}
+
+	public int save(Branch entity) {
+		String sql = "INSERT INTO branches (branch_id, name, location, description, branch_status_id, opening_time, closing_time, branch_finance, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		int rows = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setString(1, entity.getBranch_id());
+			ps.setString(2, entity.getName());
+			ps.setString(3, entity.getLocation());
+			ps.setString(4, entity.getDescription());
+			ps.setString(5, entity.getBranch_status_id());
+			ps.setString(6, entity.getOpening_time().toString());
+			ps.setString(7, entity.getClosing_time().toString());
+			ps.setBigDecimal(8, entity.getBranch_finance());
+			ps.setString(9, entity.getCreated_at().toString());
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) effected in adding Branch.");
+		}catch(SQLException e) {
+			System.out.println("Adding Branch Failed - " + e);
+		}
+		return rows;
+	}
+
+	public int edit(String branch_id, Branch entity) {
+		String sql = "UPDATE branches SET name = ?, location = ?, description = ?, branch_status_id = ?, opening_time = ?, closing_time = ?, branch_finance = ? WHERE branch_id = ?";
+		return this.jdbcTemplate.update(sql, entity.getName(), entity.getLocation(), entity.getDescription(), entity.getBranch_status_id(), entity.getOpening_time(), entity.getClosing_time(), entity.getBranch_finance(), branch_id);
+	}
+	
+	public int updateFinance(String branch_id, BigDecimal finance) {
+		return this.jdbcTemplate.update("UPDATE branches SET branch_finance = ? WHERE branch_id = ?", finance, branch_id);
+	}
+
+}

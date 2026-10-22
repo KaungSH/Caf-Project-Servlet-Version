@@ -1,0 +1,8 @@
+INDEX VERSION 1.4+D:\JWD Café Projects\JWD Café Project (servlet version)\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+552869855.index
+2080405730.index
+1236342646.index
+682169422.index
+2324010756.index
+887614023.index
+303066930.index

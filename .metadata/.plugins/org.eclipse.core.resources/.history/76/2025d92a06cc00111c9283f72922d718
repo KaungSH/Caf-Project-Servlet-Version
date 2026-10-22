@@ -1,0 +1,5 @@
+package cafe.project.servlet.servlets;
+
+public class MyConnection {
+
+}

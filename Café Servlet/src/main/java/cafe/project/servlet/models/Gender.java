@@ -1,0 +1,5 @@
+package cafe.project.servlet.models;
+
+public enum Gender {
+	MALE, FEMALE, OTHER;
+}

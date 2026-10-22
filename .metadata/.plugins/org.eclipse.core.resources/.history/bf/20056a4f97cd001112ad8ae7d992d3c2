@@ -1,0 +1,262 @@
+package cafe.project.servlet.repositories;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import cafe.project.servlet.repositories.entities.DeleteRecord;
+import cafe.project.servlet.repositories.entities.Category;
+import cafe.project.servlet.repositories.mappers.CategoryMapper;
+import cafe.project.servlet.repositories.mappers.CategoryMapper2;
+import cafe.project.servlet.servlets.MyConnection;
+
+public class CategoryRepository {
+	
+	Connection con = MyConnection.getConnection();
+	private DeleteRecordRepository deleteRecordRepository = new DeleteRecordRepository();
+	private CategoryMapper categoryMapper = new CategoryMapper();
+	private CategoryMapper2 categoryMapper2 = new CategoryMapper2();
+	
+
+
+	public List<Category> findAllActive() {
+		String sql = "SELECT * FROM categories " + "WHERE isdeleted = false " + "AND is_active = 1 AND category_id != 'deleted'";
+		List<Category> categories = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				categories.add(categoryMapper.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All active Categories Failed - " + e);
+		}
+		return categories;
+	}
+
+	public List<Category> findAllByRelation(String branch_id) {
+		String sql = "SELECT c.*, e.name employee_name, b.name branch_name FROM categories c LEFT JOIN employees e ON c.employee_id = e.employee_id LEFT JOIN branches b ON c.branches_branch_id = b.branch_id WHERE c.isdeleted = false AND c.category_id != 'deleted' AND c.branches_branch_id = ?";
+		List<Category> categories = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, branch_id);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				categories.add(categoryMapper2.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All Categories with Relation Failed - " + e);
+		}
+		return categories;
+	}
+
+	public List<Category> findAllByRelationAdmin() {
+		String sql = "SELECT c.*,e.name employee_name , b.name branch_name FROM categories c LEFT JOIN employees e ON c.employee_id=e.employee_id LEFT JOIN branches b ON c.branches_branch_id = b.branch_id WHERE  c.isdeleted = false AND c.category_id != 'deleted';";
+		List<Category> categories = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				categories.add(categoryMapper2.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All Categories with Relation for Admin Failed - " + e);
+		}
+		return categories;
+	}
+
+	public List<Category> findDeletedAll(String branch_id) {
+		String sql = "SELECT c.*, e.name employee_name, b.name branch_name FROM categories c LEFT JOIN employees e ON c.employee_id = e.employee_id LEFT JOIN branches b ON c.branches_branch_id = b.branch_id WHERE c.isdeleted = true AND c.category_id != 'deleted' AND c.branches_branch_id = ?";
+		List<Category> categories = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, branch_id);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				categories.add(categoryMapper2.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All Deleted Categories with Relation Failed - " + e);
+		}
+		return categories;
+	}
+
+	public Category findById(String id) {
+		String sql = " SELECT * FROM categories WHERE category_id = ?";
+		Category category = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				category = categoryMapper.mapRow(rs);
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get Cateogry by Id Failed - " + e);
+		}
+		return category;
+	}
+
+	public int save(Category entity) {
+		String sql = "INSERT INTO categories (category_id, name, description, is_active, isedited, isdeleted, employee_id, branches_branch_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		int rows = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setString(1, entity.getCategory_id());
+			ps.setString(2, entity.getName());
+			ps.setString(3, entity.getDescription());
+			ps.setBoolean(4, entity.getIs_active());
+			ps.setBoolean(5, entity.getIsedited());
+			ps.setBoolean(6, entity.getIsdeleted());
+			ps.setString(7, entity.getEmployee_id());
+			ps.setString(8, entity.getBranch_id());
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) effected in adding Category.");
+		}catch(SQLException e) {
+			System.out.println("Adding Category Failed - " + e);
+		}
+		return rows;
+	}
+
+	public int edit(String id, Category entity) {
+		String sql = "UPDATE categories SET name = ?, description = ?, is_active = ?, isedited = 1 WHERE category_id = ?";
+		int rows = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setString(1, entity.getName());
+			ps.setString(2, entity.getDescription());
+			ps.setBoolean(3, entity.getIs_active());
+			ps.setString(4, id);
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) effected in editing Category.");
+		}catch(SQLException e) {
+			System.out.println("Editing Category Failed - " + e);
+		}
+		return rows;
+	}
+
+	public int delete(String id) {
+		recordDelete(id);
+		setProductTypes(id);
+		String sql = "UPDATE categories SET isdeleted = 1 WHERE category_id = ? ";
+		int rows = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setString(1, id);
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) effected in deleting Category.");
+		}catch(SQLException e) {
+			System.out.println("Deleting Category Failed - " + e);
+		}
+		return rows;
+	}
+
+	public int restore(String id) {
+		int rows = 0;
+		for (DeleteRecord dr : deleteRecordRepository.getByParentId(id)) {
+			try {
+				PreparedStatement ps = con.prepareStatement("UPDATE product_types SET category_id = ? WHERE category_id = 'deleted' AND type_id = ?");
+				
+				ps.setString(1, dr.getParent_id());
+				ps.setString(2, dr.getChild_id());
+				
+				rows = ps.executeUpdate();
+				System.out.println(rows + " row(s) setting Product Types.");
+			}catch(SQLException e) {
+				System.out.println("Setting Product Types Failed - " + e);
+			}
+		}
+		
+		deleteRecordRepository.deleteByParentId(id);
+		
+		String sql = "UPDATE categories SET isdeleted = 0 WHERE category_id = ?";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setString(1, id);
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) effected in recovering Category.");
+		}catch(SQLException e) {
+			System.out.println("Recovering Category Failed - " + e);
+		}
+		return rows;
+	}
+
+	public int hardDelete(String id) {
+		deleteRecordRepository.deleteByParentId(id);
+		String sql = "DELETE FROM categories WHERE category_id = ?";
+		int rows = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setString(1, id);
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) effected in deleting Category permenantly.");
+		}catch(SQLException e) {
+			System.out.println("Deleting Category permenantly Failed - " + e);
+		}
+		return rows;
+	}
+
+	private int setProductTypes(String category_id) {
+		int rows = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement("UPDATE product_types SET category_id = 'deleted' WHERE category_id = ?");
+			
+			ps.setString(1, category_id);
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) setting Product Types.");
+		}catch(SQLException e) {
+			System.out.println("Setting Product Types Failed - " + e);
+		}
+		return rows;
+	}
+
+	private int recordDelete(String category_id) {
+		int i = 0;
+		for (String childId : getChildIds(category_id)) {
+			DeleteRecord dr = new DeleteRecord();
+			dr.setParent_id(category_id);
+			dr.setParent_table_name("categories");
+			dr.setChild_id(childId);
+			dr.setChild_table_name("product_types");
+			deleteRecordRepository.recordDelete(dr);
+			i++;
+		}
+		return i;
+	}
+
+	private List<String> getChildIds(String category_id) {
+		List<String> child_ids = new ArrayList<String>();
+		for (DeleteRecord dr : deleteRecordRepository.getChildIds(category_id, "category_id", "product_types", "type_id")) {
+			for (String child_id : dr.getChild_ids()) {
+				child_ids.add(child_id);
+			}
+		}
+
+		return child_ids;
+	}
+
+}

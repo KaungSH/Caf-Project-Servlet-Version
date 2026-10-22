@@ -1,0 +1,245 @@
+package cafe.project.servlet.repositories;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import cafe.project.servlet.models.EmployeeEntryDto;
+import cafe.project.servlet.models.RoleDto;
+import cafe.project.servlet.repositories.entities.Employee;
+import cafe.project.servlet.repositories.entities.Product;
+import cafe.project.servlet.repositories.mappers.EmployeeMapper;
+import cafe.project.servlet.repositories.mappers.EmployeeRoleMapper;
+import cafe.project.servlet.repositories.mappers.RoleMapper;
+import cafe.project.servlet.servlets.MyConnection;
+
+public class EmployeeRepository {
+
+	Connection con = MyConnection.getConnection();
+	private EmployeeMapper employeeMapper = new EmployeeMapper();
+	private EmployeeRoleMapper employeeRoleMapper = new EmployeeRoleMapper();
+	private RoleMapper roleMapper = new RoleMapper();
+
+	public List<Employee> findAllAdmin() {
+		String sql = "SELECT e.* FROM employees e LEFT JOIN employee_statuses es ON e.employee_status_id = es.employee_status_id LEFT JOIN employee_roles er ON e.employee_role_id = er.role_id WHERE es.name != 'FIRED' AND er.name != 'ADMIN'";
+		List<Employee> employees = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				employees.add(employeeMapper.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All Employees for Admin Failed - " + e);
+		}
+		return employees;
+	}
+	
+	public List<Employee> findAllAdminFired() {
+		String sql = "SELECT e.* FROM employees e LEFT JOIN employee_statuses es ON e.employee_status_id = es.employee_status_id LEFT JOIN employee_roles er ON e.employee_role_id = er.role_id WHERE es.name = 'FIRED' AND er.name != 'ADMIN'";
+		List<Employee> employees = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				employees.add(employeeMapper.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All fired Employees for Admin Failed - " + e);
+		}
+		
+		return employees;
+	}
+	
+	public List<Employee> findAllAdminManagers() {
+		String sql = "SELECT e.* FROM employees e LEFT JOIN employee_statuses es ON e.employee_status_id = es.employee_status_id LEFT JOIN employee_roles er ON e.employee_role_id = er.role_id WHERE es.name != 'FIRED' AND er.name = 'MANAGER'";
+		List<Employee> employees = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				employees.add(employeeMapper.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All Managers for Admin Failed - " + e);
+		}
+		
+		return employees;
+	}
+	
+	public Employee findByIdAdmin(String employeeId) {
+		String sql = "SELECT * FROM employees WHERE employee_id = ?";
+		Employee employee = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, employeeId);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				employee = employeeMapper.mapRow(rs);
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get Employee By Id for Admin Failed - " + e);
+		}
+		
+		return employee;
+	}
+
+	public List<Employee> findAll(String branch_id) {
+		String sql = "SELECT e.* FROM employees e LEFT JOIN employee_statuses es ON e.employee_status_id = es.employee_status_id LEFT JOIN employee_roles er ON e.employee_role_id = er.role_id WHERE es.name != 'FIRED' AND er.name != 'ADMIN' AND er.name != 'MANAGER' AND e.branch_id = ?";
+		List<Employee> employees = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, branch_id);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				employees.add(employeeMapper.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All Employees for Manager Failed - " + e);
+		}
+		return employees;
+	}
+	
+	public List<Employee> findAllFired(String branch_id) {
+		String sql = "SELECT e.* FROM employees e LEFT JOIN employee_statuses es ON e.employee_status_id = es.employee_status_id LEFT JOIN employee_roles er ON e.employee_role_id = er.role_id WHERE es.name = 'FIRED' AND er.name != 'ADMIN' AND er.name != 'MANAGER' AND e.branch_id = ?";
+		List<Employee> employees = new ArrayList<>();
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, branch_id);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				employees.add(employeeMapper.mapRow(rs));
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get All fired Employees for Manager Failed - " + e);
+		}
+		return employees;
+	}
+
+	public Employee findById(String employeeId) {
+		String sql = "SELECT e.* FROM employees e LEFT JOIN employee_roles er ON e.employee_role_id = er.role_id WHERE employee_id = ? AND er.name != 'ADMIN' AND er.name != 'MANAGER'";
+		Employee employee = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, employeeId);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				employee = employeeMapper.mapRow(rs);
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Get Employee By Id for Manager Failed - " + e);
+		}
+		
+		return employee;
+	}
+
+	public int add(EmployeeEntryDto dto) {
+		String sql = "INSERT INTO employees (employee_id, name, email, password, photopath, phone, salary, address, dob, gender, employee_status_id, employee_role_id, branch_id, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
+		int rows = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setString(1, UUID.randomUUID().toString());
+			ps.setString(2, dto.getName());
+			ps.setString(3, dto.getEmail());
+			ps.setString(4, dto.getPassword());
+			ps.setString(5, dto.getPhotopath());
+			ps.setString(6, dto.getPhone());
+			ps.setDouble(7, dto.getSalary());
+			ps.setString(8, dto.getAddress());
+			ps.setString(9, dto.getDob().toString());
+			ps.setString(10, dto.getGender().toString());
+			ps.setString(11, dto.getEmployee_status_id());
+			ps.setString(12, dto.getEmployee_role_id());
+			ps.setString(13, dto.getBranch_id());
+			ps.setString(14, LocalDateTime.now().toString());
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) effected in adding Employee.");
+		}catch(SQLException e) {
+			System.out.println("Adding Employee Failed - " + e);
+		}
+		
+		return rows;
+
+	}
+
+	public int updateEmployee(EmployeeEntryDto dto) {
+		String sql = "UPDATE employees SET name = ?, email = ?, phone = ?, salary = ?, address = ?, dob = ?, gender = ?, employee_status_id = ?, employee_role_id = ?, branch_id = ?, photopath = ? WHERE employee_id = ?";
+		int rows = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setString(1, dto.getName());
+			ps.setString(2, dto.getEmail());
+			ps.setString(3, dto.getPhone());
+			ps.setDouble(4, dto.getSalary());
+			ps.setString(5, dto.getAddress());
+			ps.setString(6, dto.getDob().toString());
+			ps.setString(7, dto.getGender().toString());
+			ps.setString(8, dto.getEmployee_status_id());
+			ps.setString(9, dto.getEmployee_role_id());
+			ps.setString(10, dto.getBranch_id());
+			ps.setString(11, dto.getPhotopath());
+			ps.setString(12, dto.getEmployee_id());
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) effected in editing Employee.");
+		}catch(SQLException e) {
+			System.out.println("Editing Employee Failed - " + e);
+		}
+		
+		return rows;
+	}
+	
+	public int changeStatus(String employee_id, String status_id) {
+		String sql = "UPDATE employees SET employee_status_id = ? WHERE employee_id = ?";
+		int rows = 0;
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setString(1, status_id);
+			ps.setString(2, employee_id);
+			
+			rows = ps.executeUpdate();
+			System.out.println(rows + " row(s) effected in changing Employee Status.");
+		}catch(SQLException e) {
+			System.out.println("Changing Employee Status Failed - " + e);
+		}
+		return rows;
+	}
+	
+	public int changeBranches(String employee_id, String branch_id) {
+		String sql = "UPDATE employees SET branch_id = ? WHERE employee_id = ?";
+		return jdbcTemplate.update(sql, branch_id, employee_id);
+	}
+	
+	public String getRoleName(String roleId) {
+		List<String> entities = jdbcTemplate.query("SELECT * FROM employee_roles WHERE role_id = ?", new EmployeeRoleMapper(), roleId);
+		return entities.isEmpty() ? null : entities.get(0);
+	}
+	
+	public List<RoleDto> getAllRoles() {
+		return jdbcTemplate.query("SELECT * FROM employee_roles", new RoleMapper());
+	}
+}
